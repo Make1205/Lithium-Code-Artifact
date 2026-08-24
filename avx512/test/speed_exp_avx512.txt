@@ -1,0 +1,17 @@
+=== Lithium-Code  avx512/  AVX512 IFMA exp speed (median rdtsc cycles, speed_exp_avx512ifma) ===
+ date    : 2026-06-11T01:40:10Z
+ kernel  : Linux 6.11.0-26-generic
+ cpu     : 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
+ cc      : cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+ cflags  : -O3 -fstack-protector-strong -Wall -Wextra -std=c99 -I. -I../ref -I../ref/test -mavx512f -mavx512bw -mavx512vl -mavx512dq -mavx512ifma -mbmi2 -mpopcnt -march=native -mtune=native -DUSE_AVX512_NTT -DUSE_AVX512_SAMPLER -DUSE_AVX512_SHAKE8X -DAVX512IFMA_EXP
+
+exp performance is mode-independent; using mode 120.
+-- AVX512IFMAEXP=1 build: W8/W16/W32 IFMA integer exp kernels --
+=== Lithium-120 AVX512 ===
+scalar Q63 approx_exp          : 36.03 cyc/out
+W8  AVX512IFMA exp (1 stream ) : 5.74 cyc/out
+W16 AVX512IFMA exp (2 streams) : 5.02 cyc/out
+W32 AVX512IFMA exp (4 streams) : 6.21 cyc/out
+speedup W32 vs scalar x5.81   (W32 vs W8 x0.93)
+PASS speed_exp_avx512ifma mode=120 rel[0,7.369]=3.036e-15 at a=5.4527 (gate 2^-43) sink=6134792869011321148
+

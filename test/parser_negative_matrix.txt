@@ -1,0 +1,111 @@
+=== Lithium-Code security parser negative matrix ===
+date_utc: 2026-06-09T00:17:25Z
+backends: ref avx2 avx512
+modes: 120 180 260
+
+## backend=ref target=parser_negative
+make: Entering directory '<artifact-root>/ref'
+built: [parser_negative] x [120 180 260]
+=== Lithium-120 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=120 cases=8
+=== Lithium-180 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=180 cases=8
+=== Lithium-260 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=260 cases=8
+make: Leaving directory '<artifact-root>/ref'
+
+## backend=avx2 target=parser_negative
+make: Entering directory '<artifact-root>/avx2'
+built: [parser_negative] x [120 180 260]
+=== Lithium-120 AVX2 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=120 cases=8
+=== Lithium-180 AVX2 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=180 cases=8
+=== Lithium-260 AVX2 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=260 cases=8
+make: Leaving directory '<artifact-root>/avx2'
+
+## backend=avx512 target=parser_negative
+make: Entering directory '<artifact-root>/avx512'
+built: [parser_negative] x [120 180 260]
+=== Lithium-120 AVX-512 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=120 cases=8
+=== Lithium-180 AVX-512 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=180 cases=8
+=== Lithium-260 AVX-512 ===
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=260 cases=8
+make: Leaving directory '<artifact-root>/avx512'
+
+OVERALL: PASS

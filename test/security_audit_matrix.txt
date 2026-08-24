@@ -1,0 +1,51 @@
+=== Lithium-Code security audit matrix ===
+date_utc: 2026-06-09T00:18:00Z
+backends: ref avx2 avx512
+modes: 120 180 260
+fault_report: test/fault_injection_matrix.txt
+parser_report: test/parser_negative_matrix.txt
+trace_report: test/trace_kat_matrix.txt
+
+## test/fault_injection_matrix.txt
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=180 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-260 AVX-512 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=260 cases=5 rb_calls=6 rb_bytes=192
+make: Leaving directory '<artifact-root>/avx512'
+
+OVERALL: PASS
+
+## test/parser_negative_matrix.txt
+  signature length minus one   reject rc=-1
+  signature length plus one    reject rc=-1
+  wrong reserve overflow       reject rc=-1
+  nonzero rANS padding         reject rc=-1
+  noncanonical rANS stream     reject rc=-1
+  out-of-range hints           reject rc=-1
+  out-of-bound z               reject rc=-2
+  malformed challenge packing  reject rc=-2
+PASS parser_negative mode=260 cases=8
+make: Leaving directory '<artifact-root>/avx512'
+
+OVERALL: PASS
+
+## test/trace_kat_matrix.txt
+=== Lithium-120 AVX-512 ===
+PASS trace_kat mode=120 trace_hash=10768384771663989269 rb_calls=2 rb_bytes=64 sign_attempts=1 rans_overflow_retries=0
+=== Lithium-180 AVX-512 ===
+PASS trace_kat mode=180 trace_hash=10030051621399003128 rb_calls=2 rb_bytes=64 sign_attempts=1 rans_overflow_retries=0
+=== Lithium-260 AVX-512 ===
+PASS trace_kat mode=260 trace_hash=7976254290433260057 rb_calls=2 rb_bytes=64 sign_attempts=1 rans_overflow_retries=0
+make: Leaving directory '<artifact-root>/avx512'
+
+TRACE-CONSISTENCY mode=120 PASS trace_hash=10768384771663989269
+TRACE-CONSISTENCY mode=180 PASS trace_hash=10030051621399003128
+TRACE-CONSISTENCY mode=260 PASS trace_hash=7976254290433260057
+OVERALL: PASS
+
+OVERALL: PASS

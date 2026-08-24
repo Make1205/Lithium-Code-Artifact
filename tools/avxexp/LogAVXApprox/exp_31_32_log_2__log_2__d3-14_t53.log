@@ -1,0 +1,57 @@
+======================================================================
+FloatPolyApprox : exp(x) approximated by a binary64 polynomial
+  interval [LO,HI] = [0.671486331167447018497943617662608550323140755161497277429408;0.6931471805599453094172321214581765680755001343602552541206806]  ~= [ 0.96875 * log(2) , log(2) ]
+  width            = log(2) - 0.96875 * log(2)
+  degree sweep     = 3 .. 14
+  target           = 53 bits (relative AND rejection)
+======================================================================
+
+  d | rel.bits | reject.bits   (math approximation error of the poly)
+----+----------+------------
+  3 |    33    |    32
+  4 |    43    |    42
+  5 |    53    |    52
+  6 |    63    |    62
+  7 |    74    |    73
+  8 |    84    |    83
+  9 |    87    |    86
+  10 |    87    |    86
+  11 |    87    |    86
+  12 |    88    |    86
+  13 |    84    |    83
+  14 |    16    |    15
+
+======================================================================
+>>> CHOSEN degree = 6   (math: rel 63 bits, reject 62 bits)
+>>> NOTE: this is the polynomial's *mathematical* approximation error.
+>>>       A real binary64 Horner evaluation adds ~1 ULP (2^-52) of
+>>>       rounding on top; keep a few bits of margin (or use a
+>>>       compensated final step) to actually reach 53 bits.
+======================================================================
+
+C array (paste-ready, exact round-trip decimal):
+static const double POLY_C[7] = {
+    1.000024872666145814292804061551578342914581298828125,   /* C0 */
+    0.9997477055698469339262146604596637189388275146484375,   /* C1 */
+    0.50109263902636891341302316504879854619503021240234375,   /* C2 */
+    0.1640535166621039653289670923186349682509899139404296875,   /* C3 */
+    4.5377313086314152723588222215767018496990203857421875e-2,   /* C4 */
+    5.23780104232864952840120764676612452603876590728759765625e-3,   /* C5 */
+    2.74784719128189254544469832808317732997238636016845703125e-3,   /* C6 */
+};
+
+IEEE-754 bit patterns (printdouble, for exact reproducibility):
+  C0 :
+0x3ff0001a14b49a42
+  C1 :
+0x3feffdeee6758d8e
+  C2 :
+0x3fe008f36e1c4e8b
+  C3 :
+0x3fc4ffb4a46dc377
+  C4 :
+0x3fa73bb1f75f44d8
+  C5 :
+0x3f75743b82e0481a
+  C6 :
+0x3f6682a73a455064

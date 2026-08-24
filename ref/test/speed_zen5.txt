@@ -1,0 +1,37 @@
+=== Lithium-Code  ref/  end-to-end speed (tail/median rdtsc cycles, speed_sign) ===
+ date    : 2026-06-12T01:35:34Z
+ kernel  : Linux 6.1.0-49-cloud-amd64
+ cpu     : AMD EPYC 9B45
+ cc      : cc (Debian 12.2.0-14+deb12u1) 12.2.0
+ cflags  : -O3 -fstack-protector-strong -Wall -Wextra -std=c99 -I. -Itest
+ stability metrics:
+   p25, p50, p75, p90, p99: nearest-rank percentiles of keygen/sign cycles.
+   StQ1, StQ2, StQ3: stabilized quartiles, i.e., [1/8,3/8], [3/8,5/8], [5/8,7/8] means.
+     Reference: Daniel J. Bernstein, Robust statistics for rejection-sampling timings, https://cr.yp.to/papers/rsrst-20250727.pdf.
+   stddev: population standard deviation of keygen/sign cycles; lower means less run-to-run spread.
+   cv: stddev/avg; rough guide: <1% very stable, 1-5% stable, 5-15% noisy, >15% unstable or long-tailed.
+   outlier_count(>p50*1.5): keygen/sign runs slower than 1.5x the median.
+   p90/p50 and p99/p50: tail-inflation ratios; values near 1.00x mean a short tail.
+
+-- pure-scalar reference --
+mode=120, pk=1056B, sig=1187B, pk+sig=2243B, mlen=59B
+keygen (10000 runs) in cycles: p25: 409967, p50: 565784, p75: 587411, p90: 904742, p99: 1410101, StQ1: 409159, StQ2: 495315, StQ3: 655828, avg: 573458
+keygen stability: stddev: 231824, cv: 40.43%, outlier_count(>p50*1.5): 1186/10000, p90/p50: 1.60x, p99/p50: 2.49x
+sign (10000 runs) in cycles: p25: 523421, p50: 532736, p75: 537164, p90: 541564, p99: 550205, StQ1: 523282, StQ2: 532636, StQ3: 537364, avg: 530527
+sign stability: stddev: 9730, cv: 1.83%, outlier_count(>p50*1.5): 0/10000, p90/p50: 1.02x, p99/p50: 1.03x
+verify median (10000 runs): 97713 cycles
+
+mode=180, pk=1472B, sig=1618B, pk+sig=3090B, mlen=59B
+keygen (10000 runs) in cycles: p25: 584684, p50: 804491, p75: 1027537, p90: 1279826, p99: 1979747, StQ1: 584697, StQ2: 706053, StQ3: 937530, avg: 818212
+keygen stability: stddev: 324149, cv: 39.62%, outlier_count(>p50*1.5): 1270/10000, p90/p50: 1.59x, p99/p50: 2.46x
+sign (10000 runs) in cycles: p25: 872963, p50: 880118, p75: 887408, p90: 894104, p99: 905066, StQ1: 872841, StQ2: 880103, StQ3: 887622, avg: 880447
+sign stability: stddev: 10051, cv: 1.14%, outlier_count(>p50*1.5): 0/10000, p90/p50: 1.02x, p99/p50: 1.03x
+verify median (10000 runs): 156600 cycles
+
+mode=260, pk=2080B, sig=2348B, pk+sig=4428B, mlen=59B
+keygen (10000 runs) in cycles: p25: 811295, p50: 1119743, p75: 1443284, p90: 1779380, p99: 2761991, StQ1: 811212, StQ2: 978265, StQ3: 1310047, avg: 1140872
+keygen stability: stddev: 464133, cv: 40.68%, outlier_count(>p50*1.5): 1288/10000, p90/p50: 1.59x, p99/p50: 2.47x
+sign (10000 runs) in cycles: p25: 1181303, p50: 1188782, p75: 1195316, p90: 1201175, p99: 1213001, StQ1: 1181126, StQ2: 1188734, StQ3: 1195507, avg: 1188530
+sign stability: stddev: 10247, cv: 0.86%, outlier_count(>p50*1.5): 0/10000, p90/p50: 1.01x, p99/p50: 1.02x
+verify median (10000 runs): 164187 cycles
+

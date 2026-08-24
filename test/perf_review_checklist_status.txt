@@ -1,0 +1,6 @@
+=== Lithium-Code performance-review checklist status ===
+date_utc: 2026-06-09T00:18:18Z
+PATH docs/design-notes/PERF_PATCH_REVIEW.md PASS
+PATH .github/pull_request_template.md PASS
+README_LINK PERF_PATCH_REVIEW.md PASS
+OVERALL: PASS

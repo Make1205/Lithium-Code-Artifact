@@ -1,0 +1,6 @@
+/ref/out/
+/avx2/out/
+/avx512/out/
+/external/
+/third_party/*log
+/test/.ct_scan_objs/

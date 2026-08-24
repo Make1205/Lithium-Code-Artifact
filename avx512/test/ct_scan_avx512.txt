@@ -1,0 +1,131 @@
+# Lithium-Code CT Scan Matrix Report
+
+date_utc: 2026-06-09T00:23:33Z
+root: <artifact-root>
+backends: avx512
+modes: 120 180 260
+compilers: cc
+opts: -O3
+include_optional: 1
+allowlist:
+  - gather: avx2/fips202x4.c and avx512/fips202x8.c public SHAKE lane pointers/offsets only
+  - public_div: fips202 one-shot SHAKE output-length block counts and sampler Gaussian initial refill block counts
+
+## backend=avx512 mode=120 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q57601n256/ntt_avx512.S
+RESULT: PASS
+
+## backend=avx512 mode=180 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q30977n256/ntt_avx512.S
+RESULT: PASS
+
+## backend=avx512 mode=260 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q64513n512/ntt_avx512.S
+RESULT: PASS
+
+## backend=avx512 mode=120 cc=cc opt=-O3 variant=ifmaexp
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q57601n256/ntt_avx512.S
+PASS approx_exp_avx512ifma.c
+RESULT: PASS
+
+## backend=avx512 mode=180 cc=cc opt=-O3 variant=ifmaexp
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q30977n256/ntt_avx512.S
+PASS approx_exp_avx512ifma.c
+RESULT: PASS
+
+## backend=avx512 mode=260 cc=cc opt=-O3 variant=ifmaexp
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+PASS fips202x8.c; allowlisted_gather=37 (public SHAKE lane pointers/offsets only)
+PASS keccakf1600x8.c
+PASS q64513n512/ntt_avx512.S
+PASS approx_exp_avx512ifma.c
+RESULT: PASS
+
+OVERALL: PASS

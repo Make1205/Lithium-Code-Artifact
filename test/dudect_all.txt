@@ -1,0 +1,72 @@
+=== Lithium-Code dudect-sign all backends ===
+date: 2026-06-05T14:24:48Z
+host: Linux 6.11.0-26-generic
+DUDECT_N: 200000
+BACKENDS: ref avx2 avx512
+MODES: 120 180 260
+
+--- backend=ref mode=120 start=2026-06-05T14:24:48Z ---
+dudect-sign mode=120 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=1036673.4 var0=51733383980.2
+  n1=100056 mean1=1036900.8 var1=50310642543.6
+  Welch t=-0.23 |t|=0.23
+--- backend=ref mode=120 end=2026-06-05T14:25:47Z ---
+
+--- backend=ref mode=180 start=2026-06-05T14:25:47Z ---
+dudect-sign mode=180 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=1731749.6 var0=73308291760.0
+  n1=100056 mean1=1732506.3 var1=80556407845.0
+  Welch t=-0.61 |t|=0.61
+--- backend=ref mode=180 end=2026-06-05T14:27:25Z ---
+
+--- backend=ref mode=260 start=2026-06-05T14:27:25Z ---
+dudect-sign mode=260 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=2217990.5 var0=184226592613.1
+  n1=100056 mean1=2216599.2 var1=149572102227.7
+  Welch t=0.76 |t|=0.76
+--- backend=ref mode=260 end=2026-06-05T14:29:30Z ---
+
+--- backend=avx2 mode=120 start=2026-06-05T14:29:30Z ---
+dudect-sign mode=120 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=353252.9 var0=17744229475.6
+  n1=100056 mean1=353574.8 var1=14298867048.7
+  Welch t=-0.57 |t|=0.57
+--- backend=avx2 mode=120 end=2026-06-05T14:29:53Z ---
+
+--- backend=avx2 mode=180 start=2026-06-05T14:29:53Z ---
+dudect-sign mode=180 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=574326.0 var0=19607229850.0
+  n1=100056 mean1=574740.9 var1=19642159981.1
+  Welch t=-0.66 |t|=0.66
+--- backend=avx2 mode=180 end=2026-06-05T14:30:29Z ---
+
+--- backend=avx2 mode=260 start=2026-06-05T14:30:29Z ---
+dudect-sign mode=260 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=715416.9 var0=41751529798.1
+  n1=100056 mean1=714387.6 var1=33611936672.5
+  Welch t=1.19 |t|=1.19
+--- backend=avx2 mode=260 end=2026-06-05T14:31:11Z ---
+
+--- backend=avx512 mode=120 start=2026-06-05T14:31:11Z ---
+dudect-sign mode=120 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=222540.0 var0=4188654506.1
+  n1=100056 mean1=222258.4 var1=5571137275.2
+  Welch t=0.90 |t|=0.90
+--- backend=avx512 mode=120 end=2026-06-05T14:31:27Z ---
+
+--- backend=avx512 mode=180 start=2026-06-05T14:31:27Z ---
+dudect-sign mode=180 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=357736.4 var0=2613078484.3
+  n1=100056 mean1=357432.7 var1=3517480881.6
+  Welch t=1.23 |t|=1.23
+--- backend=avx512 mode=180 end=2026-06-05T14:31:51Z ---
+
+--- backend=avx512 mode=260 start=2026-06-05T14:31:51Z ---
+dudect-sign mode=260 traces=200000 class0=fixed-sk class1=random-secret-same-public sk_pool=64
+  n0=99944 mean0=465303.1 var0=19112956787.5
+  n1=100056 mean1=465019.4 var1=16604350315.4
+  Welch t=0.47 |t|=0.47
+--- backend=avx512 mode=260 end=2026-06-05T14:32:20Z ---
+
+=== done ===
+wrote: test/dudect_all.txt

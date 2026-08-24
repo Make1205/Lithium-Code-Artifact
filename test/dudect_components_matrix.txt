@@ -1,0 +1,76 @@
+=== Lithium-Code optional dudect components matrix ===
+date_utc: 2026-06-06T14:27:21Z
+backends: ref avx2 avx512
+modes: 120 180 260
+DUDECT_COMPONENT_N: 512
+
+## backend=ref target=dudect_components
+make: Entering directory '<artifact-root>/ref'
+built: [dudect_components] x [120 180 260]
+=== Lithium-120 ===
+DUDECT_COMPONENTS mode=120 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=120 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=1987.1 mean1=2251.1 t=-9.96 abs_t=9.96 status=WARN
+COMPONENT mode=120 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=21607.6 mean1=34946.6 t=-14.76 abs_t=14.76 status=FAIL
+COMPONENT mode=120 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=19812.3 mean1=19993.5 t=-0.68 abs_t=0.68 status=PASS
+WARN dudect_components mode=120 sink=13442066884/84677
+=== Lithium-180 ===
+DUDECT_COMPONENTS mode=180 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=180 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=1923.6 mean1=2081.2 t=-8.66 abs_t=8.66 status=WARN
+COMPONENT mode=180 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=20305.2 mean1=35532.7 t=-12.43 abs_t=12.43 status=FAIL
+COMPONENT mode=180 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=22884.4 mean1=25759.2 t=-2.46 abs_t=2.46 status=PASS
+WARN dudect_components mode=180 sink=29098780077/13149
+=== Lithium-260 ===
+DUDECT_COMPONENTS mode=260 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=260 name=poly_sqnorm traces=512 n0=272 n1=240 mean0=5631.7 mean1=6158.2 t=-4.83 abs_t=4.83 status=WARN
+COMPONENT mode=260 name=poly_ntt_invntt_roundtrip traces=512 n0=263 n1=249 mean0=43980.7 mean1=82504.6 t=-23.82 abs_t=23.82 status=FAIL
+COMPONENT mode=260 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=266 n1=246 mean0=41124.4 mean1=42646.9 t=-1.97 abs_t=1.97 status=PASS
+WARN dudect_components mode=260 sink=13910339782/125603
+make: Leaving directory '<artifact-root>/ref'
+
+## backend=avx2 target=dudect_components
+make: Entering directory '<artifact-root>/avx2'
+built: [dudect_components] x [120 180 260]
+=== Lithium-120 AVX2 ===
+DUDECT_COMPONENTS mode=120 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=120 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=196.9 mean1=396.1 t=-10.73 abs_t=10.73 status=FAIL
+COMPONENT mode=120 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=1378.5 mean1=1282.9 t=0.46 abs_t=0.46 status=PASS
+COMPONENT mode=120 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=22385.7 mean1=23667.2 t=-1.05 abs_t=1.05 status=PASS
+WARN dudect_components mode=120 sink=13442066884/84677
+=== Lithium-180 AVX2 ===
+DUDECT_COMPONENTS mode=180 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=180 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=209.0 mean1=416.8 t=-10.56 abs_t=10.56 status=FAIL
+COMPONENT mode=180 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=1113.4 mean1=1269.1 t=-5.10 abs_t=5.10 status=WARN
+COMPONENT mode=180 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=26093.0 mean1=26174.1 t=-0.09 abs_t=0.09 status=PASS
+WARN dudect_components mode=180 sink=29098780077/13149
+=== Lithium-260 AVX2 ===
+DUDECT_COMPONENTS mode=260 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=260 name=poly_sqnorm traces=512 n0=272 n1=240 mean0=315.8 mean1=889.3 t=-15.83 abs_t=15.83 status=FAIL
+COMPONENT mode=260 name=poly_ntt_invntt_roundtrip traces=512 n0=263 n1=249 mean0=2596.8 mean1=2967.2 t=-13.05 abs_t=13.05 status=FAIL
+COMPONENT mode=260 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=266 n1=246 mean0=45557.3 mean1=44575.7 t=0.62 abs_t=0.62 status=PASS
+WARN dudect_components mode=260 sink=13910339782/125603
+make: Leaving directory '<artifact-root>/avx2'
+
+## backend=avx512 target=dudect_components
+make: Entering directory '<artifact-root>/avx512'
+built: [dudect_components] x [120 180 260]
+=== Lithium-120 AVX-512 ===
+DUDECT_COMPONENTS mode=120 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=120 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=123.5 mean1=385.0 t=-11.82 abs_t=11.82 status=FAIL
+COMPONENT mode=120 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=880.9 mean1=1168.0 t=-6.90 abs_t=6.90 status=WARN
+COMPONENT mode=120 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=20517.6 mean1=20563.7 t=-0.23 abs_t=0.23 status=PASS
+WARN dudect_components mode=120 sink=13442066884/84677
+=== Lithium-180 AVX-512 ===
+DUDECT_COMPONENTS mode=180 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=180 name=poly_sqnorm traces=512 n0=280 n1=232 mean0=199.4 mean1=333.1 t=-9.76 abs_t=9.76 status=WARN
+COMPONENT mode=180 name=poly_ntt_invntt_roundtrip traces=512 n0=265 n1=247 mean0=997.4 mean1=937.0 t=0.43 abs_t=0.43 status=PASS
+COMPONENT mode=180 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=278 n1=234 mean0=20761.2 mean1=21482.6 t=-1.02 abs_t=1.02 status=PASS
+PASS dudect_components mode=180 sink=29098780077/13149
+=== Lithium-260 AVX-512 ===
+DUDECT_COMPONENTS mode=260 traces=512 scope=poly_sqnorm,ntt_roundtrip,rounding_batch
+COMPONENT mode=260 name=poly_sqnorm traces=512 n0=272 n1=240 mean0=453.9 mean1=1311.4 t=-3.17 abs_t=3.17 status=PASS
+COMPONENT mode=260 name=poly_ntt_invntt_roundtrip traces=512 n0=263 n1=249 mean0=3907.2 mean1=3169.5 t=0.30 abs_t=0.30 status=PASS
+COMPONENT mode=260 name=rounding_highbits_lowbits_lsb_batch traces=512 n0=266 n1=246 mean0=40732.5 mean1=39661.2 t=0.98 abs_t=0.98 status=PASS
+PASS dudect_components mode=260 sink=13910339782/125603
+make: Leaving directory '<artifact-root>/avx512'
+
+OVERALL: WARN

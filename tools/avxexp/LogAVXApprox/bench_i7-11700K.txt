@@ -1,0 +1,28 @@
+# bench.c measurements on one i7-11700K test system @ 3.60GHz
+# gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0; flags: -O2 -mavx2 -mfma -mavx512f -mavx512dq -mavx512ifma
+# date(UTC build host): 2026-06-02
+
+== correctness (max relative error over a in [0,7.369] vs libm exp) ==
+  scalar int (mulh64 Q51) : 2^-48.90
+  AVX2 double  (4-wide)   : 2^-50.45
+  AVX-512 IFMA (8-wide)   : 2^-48.78
+  target                  : 2^-43  (all must beat this)
+  IFMA(8) vs scalar ref   : max rel diff 2^-49.8 (same Q51 core; differ only by range-redux rounding)
+
+== throughput (best of 21 runs, 8192 elems x 2000 iters; FTZ/DAZ on) ==
+  kernel                       ns/exp     Mexp/s    tsc/exp  speedup
+  scalar int (1x lane)         20.172       49.6      74.42    1.00x
+  AVX2 double (4 lanes)         5.465      183.0      20.33    3.69x
+  AVX-512 IFMA (8 lanes)        2.508      398.7       9.58    8.04x
+  (tsc/exp = TSC reference cycles ~3.6GHz; core cycles are fewer at boost.)
+
+== constant-time (dudect-style, AVX2 double; 300000 batches of 512, lower-50% crop) ==
+  fixed mean=9652.0  random mean=9651.7  (tsc/batch)   Welch |t| = 0.64  -> no leakage detected (|t|<4.5)
+== constant-time (dudect-style, AVX-512 IFMA; 300000 batches of 512, lower-50% crop) ==
+  fixed mean=4523.0  random mean=4523.0  (tsc/batch)   Welch |t| = 0.31  -> no leakage detected (|t|<4.5)
+
+(sink=2.04e+04)
+
+# disassembly audit:
+#   secret-dependent branches: 0 (3 jcc are fixed-count loop counters: 32-scan, 6-Horner)
+#   vdiv/vsqrt: 0 ; IFMA path uses vpmadd52luq/huq; all ops data-operand-independent (DOIT-listed)

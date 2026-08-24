@@ -1,0 +1,55 @@
+diff --git a/Artifacts/CT-Implementation/bliss1_galactics/ref/crypto_sign.h b/Artifacts/CT-Implementation/bliss1_galactics/ref/crypto_sign.h
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Artifacts/CT-Implementation/bliss1_galactics/ref/crypto_sign.h
+@@ -0,0 +1,16 @@
++#ifndef CRYPTO_SIGN_H
++#define CRYPTO_SIGN_H
++
++#include "api.h"
++
++#define CRYPTO_ALGNAME "BLISS-I"
++
++int crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
++int crypto_sign(unsigned char *sm, unsigned long long *smlen,
++                const unsigned char *m, unsigned long long mlen,
++                const unsigned char *sk);
++int crypto_sign_open(unsigned char *m, unsigned long long *mlen,
++                     const unsigned char *sm, unsigned long long smlen,
++                     const unsigned char *pk);
++
++#endif
+diff --git a/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.h b/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.h
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.h
+@@ -0,0 +1,6 @@
++#ifndef RANDOMBYTES_H
++#define RANDOMBYTES_H
++
++void randombytes(unsigned char *buf, unsigned long long len);
++
++#endif
+diff --git a/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.c b/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.c
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/Artifacts/CT-Implementation/bliss1_galactics/ref/randombytes.c
+@@ -0,0 +1,15 @@
++#include "randombytes.h"
++
++#include <stdint.h>
++
++void randombytes(unsigned char *buf, unsigned long long len)
++{
++    static uint64_t state = 0x6a09e667f3bcc909ULL;
++
++    for (unsigned long long i = 0; i < len; i++) {
++        state ^= state << 13;
++        state ^= state >> 7;
++        state ^= state << 17;
++        buf[i] = (unsigned char)(state >> 56);
++    }
++}

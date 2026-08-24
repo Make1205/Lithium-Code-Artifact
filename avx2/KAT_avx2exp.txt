@@ -1,0 +1,6 @@
+# AVX2Exp (float) build KAT hashes — make AVX2EXP=1
+# NOTE: float exp can diverge from the integer KAT on a ~2^-43 measure set;
+# for these recorded vectors it happens to match the integer KAT exactly.
+mode=120 KAT_hash=16043336652881898616
+mode=180 KAT_hash=12054898970128143599
+mode=260 KAT_hash=14183906608478196884

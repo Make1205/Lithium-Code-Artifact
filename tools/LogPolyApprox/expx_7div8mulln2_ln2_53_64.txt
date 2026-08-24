@@ -1,0 +1,267 @@
+========================================================================
+Run started: 2026-05-16T15:36:28
+Inputs:
+  f                = exp(x)
+  a                = 7/8*log(2)
+  b                = log(2)
+  prec             = 256
+  target_precision = 53
+  nbits            = 64
+  log file         = LogPolyApprox/expx_7div8mulln2_ln2_53_64.log
+========================================================================
+....................................
+Step 1 : look for a polynomial whose unified-Q Horner evaluation also gives more than 53 bits of security
+
+iteration on the degrees with Horner-aware validation :
+
+Horner-aware search uses qbits=[62] (from [62, 61]), coarse nsamples=32, confirm nsamples=4096
+
+degree 0 -> float precision 3
+degree 1 -> float precision 9
+degree 2 -> float precision 15
+degree 3 -> float precision 22
+degree 4 -> float precision 30
+degree 5 -> float precision 38
+degree 6 -> float precision 46
+  degree 7 reached Sobolev target (Sobolev: 54), validating combined precision...
+    checking Q62
+  [cache] building 8x8 monomial Gram matrix (36 intnum calls) ...
+  [cache] monomial Gram matrix ready.
+      confirming Q62 with nsamples=4096
+degree 7 -> float precision 54, best Q62 combined precision 56
+Found a Horner-aware degree !
+
+Conclusion: Using degree 7 polynomial ensures 54 float bits, with Horner-aware implementation feasibility.
+
+The corresponding polynomial is: P = 
+0.0003799738792140328225888037500169972222824299642231773281553339050407548933872*x^7 + 0.0009317840913798725956408653384110588405299697712742285411873095242093292146252*x^6 + 0.008957564390349964072381903271429615384789460330413159910370061689102128373495*x^5 + 0.04114467358561984055632306105262281470598808795304863173885658043850122603042*x^4 + 0.1669431499118875957882723149212381350239148610399479432360656393123452277849*x^3 + 0.4999090259003227803182137966007934931610456297730932591875231469388029960408*x^2 + 1.000017038087572149088806753093419966691985455763457537539929743119095722298*x + 0.9999986077738391050019616626843723510966917263655205652866896902129093378069
+
+
+....................................
+  [cache] precomputing f(x) grid for nsamples=4096 ...
+  [cache] f(x) grid ready.
+====================================
+Running unified Q62
+====================================
+Step 2 : Round the float coefficients to integer ones
+Generating Lattice...
+Using unified Q62 lattice scaling
+log(m[i]) =  [-62, -62, -62, -62, -62, -62, -62, -62]
+LLL reduction Done
+
+Babai Rounding...
+
+ -----------------------
+ | Sobolev precision : 54  |
+ | Max size coeffs : 63 |
+ | Q62 Horner precision : 57 |
+ | Q62 Horner rejection precision : 56 |
+ | Q62 Combined precision : 56 |
+ | Fits int64 signed : True |
+ -----------------------
+Q62 Horner max relative error: 2^-57.77
+Q62 Horner worst x: 0.6495716436961303882319447017131862198627459144877538556987866739356424360182
+Q62 Horner max rejection error: 2^-56.70
+Q62 Horner rejection worst x: 0.6495716436961303882319447017131862198627459144877538556987866739356424360182
+....................................
+
+latex exact values poly:
+P &= 4611679597917492701 \cdot 2 ^ {-62} \\ 
+  &+ 4611764592737348812 \cdot 2 ^ {-62} \cdot x ^ {1}\\ 
+  &+ 2305423465231456791 \cdot 2 ^ {-62} \cdot x ^ {2}\\ 
+  &+ 769889390317569789 \cdot 2 ^ {-62} \cdot x ^ {3}\\ 
+  &+ 189746315912680778 \cdot 2 ^ {-62} \cdot x ^ {4}\\ 
+  &+ 41309474453391455 \cdot 2 ^ {-62} \cdot x ^ {5}\\ 
+  &+ 4297095668855606 \cdot 2 ^ {-62} \cdot x ^ {6}\\ 
+  &+ 1752320225599248 \cdot 2 ^ {-62} \cdot x ^ {7}\\ 
+====================================
+Running unified Q61
+====================================
+Step 2 : Round the float coefficients to integer ones
+Generating Lattice...
+Using unified Q61 lattice scaling
+log(m[i]) =  [-61, -61, -61, -61, -61, -61, -61, -61]
+LLL reduction Done
+
+Babai Rounding...
+
+ -----------------------
+ | Sobolev precision : 54  |
+ | Max size coeffs : 62 |
+ | Q61 Horner precision : 57 |
+ | Q61 Horner rejection precision : 56 |
+ | Q61 Combined precision : 56 |
+ | Fits int64 signed : True |
+ -----------------------
+Q61 Horner max relative error: 2^-57.61
+Q61 Horner worst x: 0.6494447246567212185585894956362590635087281837502611331791112564534353937291
+Q61 Horner max rejection error: 2^-56.54
+Q61 Horner rejection worst x: 0.6494447246567212185585894956362590635087281837502611331791112564534353937291
+....................................
+
+latex exact values poly:
+P &= 2305839798958743970 \cdot 2 ^ {-61} \\ 
+  &+ 2305882296368700124 \cdot 2 ^ {-61} \cdot x ^ {1}\\ 
+  &+ 1152711732615609334 \cdot 2 ^ {-61} \cdot x ^ {2}\\ 
+  &+ 384944695159091005 \cdot 2 ^ {-61} \cdot x ^ {3}\\ 
+  &+ 94873157955868340 \cdot 2 ^ {-61} \cdot x ^ {4}\\ 
+  &+ 20654737227132340 \cdot 2 ^ {-61} \cdot x ^ {5}\\ 
+  &+ 2148547834203527 \cdot 2 ^ {-61} \cdot x ^ {6}\\ 
+  &+ 876160112848980 \cdot 2 ^ {-61} \cdot x ^ {7}\\ 
+Q sweep summary:
+ qbits | Sobolev | horner | reject | combined | max_bits | fits_i64
+    62 |      54 |     57 |     56 |       56 |       63 |     True
+    61 |      54 |     57 |     56 |       56 |       62 |     True
+Best feasible point: Q62 (combined=56, horner=57, reject=56, max_bits=63)
+Best implementation-feasible point: Q62 (combined=56, horner=57, reject=56, max_bits=63)
+========================================================================
+Run started: 2026-06-05T11:56:30
+Inputs:
+  f                = exp(x)
+  a                = 7/8*log(2)
+  b                = log(2)
+  prec             = 256
+  target_precision = 53
+  nbits            = 64
+  log file         = LogPolyApprox/expx_7div8mulln2_ln2_53_64.txt
+========================================================================
+....................................
+Step 1 : look for a polynomial whose unified-Q Horner evaluation also gives more than 53 bits of security
+
+iteration on the degrees with Horner-aware validation :
+
+Horner-aware search uses qbits=[63] (from [63, 62, 61]), coarse nsamples=32, confirm nsamples=4096
+
+degree 0 -> float precision 3
+degree 1 -> float precision 9
+degree 2 -> float precision 15
+degree 3 -> float precision 22
+degree 4 -> float precision 30
+degree 5 -> float precision 38
+degree 6 -> float precision 46
+  degree 7 reached Sobolev target (Sobolev: 54), validating combined precision...
+    checking Q63
+  [cache] building 8x8 monomial Gram matrix (36 intnum calls) ...
+  [cache] monomial Gram matrix ready.
+      confirming Q63 with nsamples=4096
+degree 7 -> float precision 54, best Q63 combined precision 56
+Found a Horner-aware degree !
+
+Conclusion: Using degree 7 polynomial ensures 54 float bits, with Horner-aware implementation feasibility.
+
+The corresponding polynomial is: P = 
+0.0003799738792140328225888037500169972222824299642231773281553339050407548933872*x^7 + 0.0009317840913798725956408653384110588405299697712742285411873095242093292146252*x^6 + 0.008957564390349964072381903271429615384789460330413159910370061689102128373495*x^5 + 0.04114467358561984055632306105262281470598808795304863173885658043850122603042*x^4 + 0.1669431499118875957882723149212381350239148610399479432360656393123452277849*x^3 + 0.4999090259003227803182137966007934931610456297730932591875231469388029960408*x^2 + 1.000017038087572149088806753093419966691985455763457537539929743119095722298*x + 0.9999986077738391050019616626843723510966917263655205652866896902129093378069
+
+
+....................................
+  [cache] precomputing f(x) grid for nsamples=4096 ...
+  [cache] f(x) grid ready.
+====================================
+Running unified Q63
+====================================
+Step 2 : Round the float coefficients to integer ones
+Generating Lattice...
+Using unified Q63 lattice scaling
+log(m[i]) =  [-63, -63, -63, -63, -63, -63, -63, -63]
+LLL reduction Done
+
+Babai Rounding...
+
+ -----------------------
+ | Sobolev precision : 54  |
+ | Max size coeffs : 64 |
+ | Q63 Horner precision : 57 |
+ | Q63 Horner rejection precision : 56 |
+ | Q63 Combined precision : 56 |
+ | Fits uint64 : True |
+ -----------------------
+Q63 Horner max relative error: 2^-57.86
+Q63 Horner worst x: 0.6494658778299560801708153633157469229010644722065099202657238260338032341106
+Q63 Horner max rejection error: 2^-56.80
+Q63 Horner rejection worst x: 0.6494658778299560801708153633157469229010644722065099202657238260338032341106
+....................................
+
+latex exact values poly:
+P &= 9223359195834938053 \cdot 2 ^ {-63} \\ 
+  &+ 9223529185475211575 \cdot 2 ^ {-63} \cdot x ^ {1}\\ 
+  &+ 4610846930460523822 \cdot 2 ^ {-63} \cdot x ^ {2}\\ 
+  &+ 1539778780641310092 \cdot 2 ^ {-63} \cdot x ^ {3}\\ 
+  &+ 379492631815806242 \cdot 2 ^ {-63} \cdot x ^ {4}\\ 
+  &+ 82618948915657009 \cdot 2 ^ {-63} \cdot x ^ {5}\\ 
+  &+ 8594191333134702 \cdot 2 ^ {-63} \cdot x ^ {6}\\ 
+  &+ 3504640452209541 \cdot 2 ^ {-63} \cdot x ^ {7}\\ 
+====================================
+Running unified Q62
+====================================
+Step 2 : Round the float coefficients to integer ones
+Generating Lattice...
+Using unified Q62 lattice scaling
+log(m[i]) =  [-62, -62, -62, -62, -62, -62, -62, -62]
+LLL reduction Done
+
+Babai Rounding...
+
+ -----------------------
+ | Sobolev precision : 54  |
+ | Max size coeffs : 63 |
+ | Q62 Horner precision : 57 |
+ | Q62 Horner rejection precision : 56 |
+ | Q62 Combined precision : 56 |
+ | Fits uint64 : True |
+ -----------------------
+Q62 Horner max relative error: 2^-57.77
+Q62 Horner worst x: 0.6495716436961303882319447017131862198627459144877538556987866739356424360182
+Q62 Horner max rejection error: 2^-56.70
+Q62 Horner rejection worst x: 0.6495716436961303882319447017131862198627459144877538556987866739356424360182
+....................................
+
+latex exact values poly:
+P &= 4611679597917492701 \cdot 2 ^ {-62} \\ 
+  &+ 4611764592737348812 \cdot 2 ^ {-62} \cdot x ^ {1}\\ 
+  &+ 2305423465231456791 \cdot 2 ^ {-62} \cdot x ^ {2}\\ 
+  &+ 769889390317569789 \cdot 2 ^ {-62} \cdot x ^ {3}\\ 
+  &+ 189746315912680778 \cdot 2 ^ {-62} \cdot x ^ {4}\\ 
+  &+ 41309474453391455 \cdot 2 ^ {-62} \cdot x ^ {5}\\ 
+  &+ 4297095668855606 \cdot 2 ^ {-62} \cdot x ^ {6}\\ 
+  &+ 1752320225599248 \cdot 2 ^ {-62} \cdot x ^ {7}\\ 
+====================================
+Running unified Q61
+====================================
+Step 2 : Round the float coefficients to integer ones
+Generating Lattice...
+Using unified Q61 lattice scaling
+log(m[i]) =  [-61, -61, -61, -61, -61, -61, -61, -61]
+LLL reduction Done
+
+Babai Rounding...
+
+ -----------------------
+ | Sobolev precision : 54  |
+ | Max size coeffs : 62 |
+ | Q61 Horner precision : 57 |
+ | Q61 Horner rejection precision : 56 |
+ | Q61 Combined precision : 56 |
+ | Fits uint64 : True |
+ -----------------------
+Q61 Horner max relative error: 2^-57.61
+Q61 Horner worst x: 0.6494447246567212185585894956362590635087281837502611331791112564534353937291
+Q61 Horner max rejection error: 2^-56.54
+Q61 Horner rejection worst x: 0.6494447246567212185585894956362590635087281837502611331791112564534353937291
+....................................
+
+latex exact values poly:
+P &= 2305839798958743970 \cdot 2 ^ {-61} \\ 
+  &+ 2305882296368700124 \cdot 2 ^ {-61} \cdot x ^ {1}\\ 
+  &+ 1152711732615609334 \cdot 2 ^ {-61} \cdot x ^ {2}\\ 
+  &+ 384944695159091005 \cdot 2 ^ {-61} \cdot x ^ {3}\\ 
+  &+ 94873157955868340 \cdot 2 ^ {-61} \cdot x ^ {4}\\ 
+  &+ 20654737227132340 \cdot 2 ^ {-61} \cdot x ^ {5}\\ 
+  &+ 2148547834203527 \cdot 2 ^ {-61} \cdot x ^ {6}\\ 
+  &+ 876160112848980 \cdot 2 ^ {-61} \cdot x ^ {7}\\ 
+Q sweep summary:
+ qbits | Sobolev | horner | reject | combined | max_bits | fits_u64
+    63 |      54 |     57 |     56 |       56 |       64 |     True
+    62 |      54 |     57 |     56 |       56 |       63 |     True
+    61 |      54 |     57 |     56 |       56 |       62 |     True
+Best feasible point: Q63 (combined=56, horner=57, reject=56, max_bits=64)
+Best implementation-feasible point: Q63 (combined=56, horner=57, reject=56, max_bits=64)

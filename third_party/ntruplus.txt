@@ -1,0 +1,42 @@
+date    : 2026-06-11T08:45:28Z
+kernel  : Linux 6.11.0-26-generic
+cpu     : 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
+cc      : cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+cflags  : upstream Makefile defaults
+
+commits.dilithium = bba9534a3c5cbef66481cd6518d786e23ae601b5 (https://github.com/pq-crystals/dilithium.git, HEAD of master on 2026-06-03, no exact tag)
+commits.falcon_ref = 3aa50485d5f992adbca8ce32a307401d1ed37dc8 (https://github.com/pornin/c-fn-dsa.git, HEAD of main on 2026-06-03, no exact tag)
+commits.falcon_opt = 61b326e9bb6afe2ea4927e7a25832e7a64485367 (https://github.com/Ji-Peng/VecFalcon.git, HEAD of main on 2026-06-03, no exact tag)
+commits.haetae = 0896ebec2441804f13ce2fca9c942f32fc62805c (https://github.com/kpqc-cryptocraft/KpqClean_ver2.git, exact tag v2.0.0)
+commits.ntruplus = 4a540aa184214f9de1d4b130f5268da00b1468b4 (https://github.com/KU-Cryptographic-Protocol-Lab/ntruplus_sign.git, HEAD of main on 2026-06-05, no exact tag)
+commits.raccoon = e789b4b72a2b7e8a2205df49c487736985fc8417 (https://github.com/masksign/raccoon.git, HEAD of main on 2026-06-05, no exact tag)
+commits.galactics = 79141a6b4032dbeb79fa8cab0d3c715c0c3eb442 (https://github.com/espitau/GALACTICS.git, HEAD of master on 2026-06-05, no exact tag)
+commits.hawk = 1b9fef52559273fe7b40fe3e22968eaedd3a4c2a (https://github.com/hawk-sign/dev.git, HEAD of main on 2026-06-06, no exact tag)
+commits.dilithium_xu = 100eb09973bce5e41fd14373aa279ddca06ef1d2 (https://github.com/xurq5953/Optimizing-Dilithium-Implementation-with-AVX2-512.git, HEAD of main on 2026-06-06, no exact tag)
+
+stability.p25_p50_p75_p90_p99 = nearest-rank percentiles of keygen/sign cycles
+stability.StQ1_StQ2_StQ3 = stabilized quartiles: [1/8,3/8], [3/8,5/8], [5/8,7/8] means; see Daniel J. Bernstein, Robust statistics for rejection-sampling timings, https://cr.yp.to/papers/rsrst-20250727.pdf
+stability.stddev = population standard deviation of keygen/sign cycles; lower means less run-to-run spread
+stability.cv = stddev/avg; rough guide: <1% very stable, 1-5% stable, 5-15% noisy, >15% unstable or long-tailed
+stability.outlier_count = number of keygen/sign runs slower than 1.5x p50
+stability.p90_p50 = p90/p50 tail-inflation ratio; values near 1.00x mean a short tail
+stability.p99_p50 = p99/p50 tail-inflation ratio; values near 1.00x mean a short tail
+
+=== NTRU+Sign Performance ===
+
+-- ref/ mode-512 --
+mode=NTRU+SIGN512, pk=768B, sig=751B, pk+sig=1519B, mlen=59B
+keygen (10000 runs) in cycles: p25: 418336, p50: 620732, p75: 1221004, p90: 1829458, p99: 3469438, StQ1: 332174, StQ2: 652431, StQ3: 1197241, avg: 877517
+keygen stability: stddev: 749072, cv: 85.36%, outlier_count(>p50*1.5): 3427/10000, p90/p50: 2.95x, p99/p50: 5.59x
+sign (10000 runs) in cycles: p25: 480238, p50: 1332190, p75: 2201862, p90: 3109792, p99: 6133882, StQ1: 617607, StQ2: 1146989, StQ3: 2117460, avg: 1566471
+sign stability: stddev: 1312338, cv: 83.78%, outlier_count(>p50*1.5): 2601/10000, p90/p50: 2.33x, p99/p50: 4.60x
+verify median (10000 runs): 70810 cycles
+
+-- ref/ mode-1024 --
+mode=NTRU+SIGN1024, pk=1664B, sig=1551B, pk+sig=3215B, mlen=59B
+keygen (10000 runs) in cycles: p25: 877428, p50: 1301486, p75: 2156590, p90: 3819160, p99: 7180294, StQ1: 681143, StQ2: 1328492, StQ3: 2410703, avg: 1775127
+keygen stability: stddev: 1495643, cv: 84.26%, outlier_count(>p50*1.5): 3310/10000, p90/p50: 2.93x, p99/p50: 5.52x
+sign (10000 runs) in cycles: p25: 2005090, p50: 3015246, p75: 5950230, p90: 9776210, p99: 19391678, StQ1: 1700320, StQ2: 3461757, StQ3: 6492164, avg: 4689485
+sign stability: stddev: 4071031, cv: 86.81%, outlier_count(>p50*1.5): 3880/10000, p90/p50: 3.24x, p99/p50: 6.43x
+verify median (10000 runs): 133906 cycles
+

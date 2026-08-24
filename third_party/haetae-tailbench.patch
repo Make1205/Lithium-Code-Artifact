@@ -1,0 +1,238 @@
+diff --git a/avx2/test/test_speed.c b/avx2/test/test_speed.c
+index 5051a7e..c5386fc 100644
+--- a/avx2/test/test_speed.c
++++ b/avx2/test/test_speed.c
+@@ -3,64 +3,72 @@
+ #include <string.h>
+ 
+ #include "api.h"
+-#include "polyfix.h"
+ #include "cpucycles.h"
+-#include "speed_print.h"
+ 
+-#define NTESTS 10000
++#define KEYGEN_RUNS 300
++#define VERIFY_RUNS 10000
+ #define MLEN 59
+ 
+-uint64_t t[NTESTS];
++static uint64_t keygen_cycles[KEYGEN_RUNS];
++static uint64_t verify_cycles[VERIFY_RUNS];
+ 
+-int main(void)
+-{
+-    unsigned int i;
+-    uint16_t nonce = 0;
+-    unsigned char pk[CRYPTO_PUBLICKEYBYTES];
++typedef struct sign_bench_ctx {
+     unsigned char sk[CRYPTO_SECRETKEYBYTES];
+-    unsigned char m[MLEN] = {0};
+-    unsigned char m2[MLEN + CRYPTO_BYTES];
+     unsigned char sm[MLEN + CRYPTO_BYTES];
+-    uint8_t seed[CRHBYTES] = {0};
+-    uint8_t b = 0;
+-    polyfixvecl y1;
+-    polyfixveck y2;
+-
+-    size_t mlen;
++    unsigned char msg[MLEN];
+     size_t smlen;
++} sign_bench_ctx;
+ 
+-    int result;
+-    mlen = MLEN;
++static int sign_once(void *vctx)
++{
++    sign_bench_ctx *ctx = (sign_bench_ctx *)vctx;
+ 
+-    printf("CRYPTO_ALGNAME: %s\n", CRYPTO_ALGNAME);
+-    printf("CRYPTO_PUBLICKEYBYTES: %d\n", CRYPTO_PUBLICKEYBYTES);
+-    printf("CRYPTO_SECRETKEYBYTES: %d\n", CRYPTO_SECRETKEYBYTES);
+-    printf("CRYPTO_BYTES: %d\n", CRYPTO_BYTES);
++    return crypto_sign(ctx->sm, &ctx->smlen, ctx->msg, sizeof ctx->msg,
++                       ctx->sk);
++}
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
++int main(void)
++{
++    unsigned char pk[CRYPTO_PUBLICKEYBYTES];
++    unsigned char sk[CRYPTO_SECRETKEYBYTES];
++    unsigned char msg[MLEN] = {0};
++    unsigned char opened[MLEN + CRYPTO_BYTES];
++    unsigned char sm[MLEN + CRYPTO_BYTES];
++    size_t opened_len = 0;
++    size_t smlen = 0;
++    sign_bench_ctx sign_ctx;
++    tail_sign_result sign_result;
++
++    for (int i = 0; i < KEYGEN_RUNS; i++) {
++        uint64_t begin = cpucycles();
+         crypto_sign_keypair(pk, sk);
++        keygen_cycles[i] = cpucycles() - begin;
+     }
+-    print_results("Keypair:", t, NTESTS);
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        crypto_sign(sm, &smlen, sm, mlen, sk);
+-    }
+-    print_results("Sign:", t, NTESTS);
++    crypto_sign_keypair(pk, sk);
++    memset(&sign_ctx, 0, sizeof sign_ctx);
++    memcpy(sign_ctx.sk, sk, sizeof sign_ctx.sk);
++    memcpy(sign_ctx.msg, msg, sizeof sign_ctx.msg);
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        nonce = polyfixveclk_sample_hyperball(&y1, &y2, &b, seed, nonce);
+-    }
+-    print_results("Sample_hyperball:", t, NTESTS);
++    if (bench_tail_sign("sign", &sign_result, sign_once, &sign_ctx) != 0)
++        return 1;
++
++    if (crypto_sign(sm, &smlen, msg, sizeof msg, sk) != 0)
++        return 1;
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        result = crypto_sign_open(m2, &mlen, sm, smlen, pk);
++    for (int i = 0; i < VERIFY_RUNS; i++) {
++        uint64_t begin = cpucycles();
++        (void)crypto_sign_open(opened, &opened_len, sm, smlen, pk);
++        verify_cycles[i] = cpucycles() - begin;
+     }
+-    print_results("Verify:", t, NTESTS);
+-    (void)result;
+ 
++    printf("mode=%d, pk=%dB, sig=%dB, pk+sig=%dB, mlen=%dB\n", HAETAE_MODE,
++           CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES,
++           CRYPTO_PUBLICKEYBYTES + CRYPTO_BYTES, MLEN);
++    bench_print_tail(&sign_result);
++    printf("keygen median (%d runs): %llu cycles\n", KEYGEN_RUNS,
++           (unsigned long long)cpucycles_median(keygen_cycles, KEYGEN_RUNS));
++    printf("verify median (%d runs): %llu cycles\n", VERIFY_RUNS,
++           (unsigned long long)cpucycles_median(verify_cycles, VERIFY_RUNS));
+     return 0;
+ }
+diff --git a/clean/test/test_speed.c b/clean/test/test_speed.c
+index 38c3d55..c5386fc 100644
+--- a/clean/test/test_speed.c
++++ b/clean/test/test_speed.c
+@@ -1,65 +1,74 @@
+ #include <stdint.h>
+ #include <stdio.h>
++#include <string.h>
+ 
+ #include "api.h"
+ #include "cpucycles.h"
+-#include "polyfix.h"
+-#include "speed_print.h"
+ 
+-#define NTESTS 10000
++#define KEYGEN_RUNS 300
++#define VERIFY_RUNS 10000
+ #define MLEN 59
+ 
+-uint64_t t[NTESTS];
++static uint64_t keygen_cycles[KEYGEN_RUNS];
++static uint64_t verify_cycles[VERIFY_RUNS];
+ 
+-int main(void)
+-{
+-    unsigned int i;
+-    uint16_t nonce = 0;
+-    unsigned char pk[CRYPTO_PUBLICKEYBYTES];
++typedef struct sign_bench_ctx {
+     unsigned char sk[CRYPTO_SECRETKEYBYTES];
+-    unsigned char m[MLEN] = {0};
+-    unsigned char m2[MLEN + CRYPTO_BYTES];
+     unsigned char sm[MLEN + CRYPTO_BYTES];
+-    uint8_t seed[CRHBYTES] = {0};
+-    uint8_t b = 0;
+-    polyfixvecl y1;
+-    polyfixveck y2;
+-
+-    size_t mlen;
++    unsigned char msg[MLEN];
+     size_t smlen;
++} sign_bench_ctx;
+ 
+-    int result;
+-    mlen = MLEN;
++static int sign_once(void *vctx)
++{
++    sign_bench_ctx *ctx = (sign_bench_ctx *)vctx;
+ 
+-    printf("CRYPTO_ALGNAME: %s\n", CRYPTO_ALGNAME);
+-    printf("CRYPTO_PUBLICKEYBYTES: %d\n", CRYPTO_PUBLICKEYBYTES);
+-    printf("CRYPTO_SECRETKEYBYTES: %d\n", CRYPTO_SECRETKEYBYTES);
+-    printf("CRYPTO_BYTES: %d\n", CRYPTO_BYTES);
++    return crypto_sign(ctx->sm, &ctx->smlen, ctx->msg, sizeof ctx->msg,
++                       ctx->sk);
++}
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
++int main(void)
++{
++    unsigned char pk[CRYPTO_PUBLICKEYBYTES];
++    unsigned char sk[CRYPTO_SECRETKEYBYTES];
++    unsigned char msg[MLEN] = {0};
++    unsigned char opened[MLEN + CRYPTO_BYTES];
++    unsigned char sm[MLEN + CRYPTO_BYTES];
++    size_t opened_len = 0;
++    size_t smlen = 0;
++    sign_bench_ctx sign_ctx;
++    tail_sign_result sign_result;
++
++    for (int i = 0; i < KEYGEN_RUNS; i++) {
++        uint64_t begin = cpucycles();
+         crypto_sign_keypair(pk, sk);
++        keygen_cycles[i] = cpucycles() - begin;
+     }
+-    print_results("Keypair:", t, NTESTS);
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        crypto_sign(sm, &smlen, sm, mlen, sk);
+-    }
+-    print_results("Sign:", t, NTESTS);
++    crypto_sign_keypair(pk, sk);
++    memset(&sign_ctx, 0, sizeof sign_ctx);
++    memcpy(sign_ctx.sk, sk, sizeof sign_ctx.sk);
++    memcpy(sign_ctx.msg, msg, sizeof sign_ctx.msg);
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        nonce = polyfixveclk_sample_hyperball(&y1, &y2, &b, seed, nonce);
+-    }
+-    print_results("Sample_hyperball:", t, NTESTS);
++    if (bench_tail_sign("sign", &sign_result, sign_once, &sign_ctx) != 0)
++        return 1;
++
++    if (crypto_sign(sm, &smlen, msg, sizeof msg, sk) != 0)
++        return 1;
+ 
+-    for (i = 0; i < NTESTS; ++i) {
+-        t[i] = cpucycles();
+-        result = crypto_sign_open(m2, &mlen, sm, smlen, pk);
++    for (int i = 0; i < VERIFY_RUNS; i++) {
++        uint64_t begin = cpucycles();
++        (void)crypto_sign_open(opened, &opened_len, sm, smlen, pk);
++        verify_cycles[i] = cpucycles() - begin;
+     }
+-    print_results("Verify:", t, NTESTS);
+-    (void)result;
+ 
++    printf("mode=%d, pk=%dB, sig=%dB, pk+sig=%dB, mlen=%dB\n", HAETAE_MODE,
++           CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES,
++           CRYPTO_PUBLICKEYBYTES + CRYPTO_BYTES, MLEN);
++    bench_print_tail(&sign_result);
++    printf("keygen median (%d runs): %llu cycles\n", KEYGEN_RUNS,
++           (unsigned long long)cpucycles_median(keygen_cycles, KEYGEN_RUNS));
++    printf("verify median (%d runs): %llu cycles\n", VERIFY_RUNS,
++           (unsigned long long)cpucycles_median(verify_cycles, VERIFY_RUNS));
+     return 0;
+ }

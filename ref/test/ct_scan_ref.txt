@@ -1,0 +1,62 @@
+# Lithium-Code CT Scan Matrix Report
+
+date_utc: 2026-06-06T12:08:51Z
+root: <artifact-root>
+backends: ref
+modes: 120 180 260
+compilers: cc
+opts: -O3
+include_optional: 0
+allowlist:
+  - gather: avx2/fips202x4.c and avx512/fips202x8.c public SHAKE lane pointers/offsets only
+  - public_div: fips202 one-shot SHAKE output-length block counts and sampler Gaussian initial refill block counts
+
+## backend=ref mode=120 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+RESULT: PASS
+
+## backend=ref mode=180 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+RESULT: PASS
+
+## backend=ref mode=260 cc=cc opt=-O3 variant=default
+cc_version: cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+PASS sampler.c
+PASS polyvec.c
+PASS approx_exp.c
+PASS irs.c
+PASS sign.c
+PASS packing.c
+PASS reduce.c
+PASS rounding.c
+PASS fips202.c
+PASS symmetric-shake.c
+PASS ntt.c
+PASS irs_rans.c
+RESULT: PASS
+
+OVERALL: PASS

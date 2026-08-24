@@ -1,0 +1,17 @@
+=== Lithium-Code  ref/  approx_exp speed (median rdtsc cycles, speed_approx_exp) ===
+ date    : 2026-06-11T01:39:00Z
+ kernel  : Linux 6.11.0-26-generic
+ cpu     : 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
+ cc      : cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+ cflags  : -O3 -fstack-protector-strong -Wall -Wextra -std=c99 -I. -Itest
+
+exp performance is mode-independent; using mode 120.
+-- pure-scalar reference --
+=== Lithium-120 ===
+1x latency-bound (serial chain) : 71.72 cyc/out
+1x throughput (4 indep calls)   : 38.57 cyc/out
+4x batched (approx_exp_4x)      : 35.08 cyc/out
+Falcon approx_exp serial chain  : 60.09 cyc/out
+speedup 4x vs 1x-latency  x2.04   (4x vs 1x-throughput x1.10)
+PASS speed_approx_exp mode=120 bitexact_bad=0 rel[0,8]=1.545e-15 (gate 2^-43) sink=8718676088125710711
+

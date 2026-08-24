@@ -1,0 +1,100 @@
+/* ====================================================================
+ * AVXPolyApprox.sollya
+ *
+ * Generate a candidate *binary64* (double) polynomial that approximates
+ * exp(x) on a narrow interval [LO, HI] held *away from 0*.
+ *
+ * Why away from 0:  this mirrors the integer ApproxExp range reduction
+ *     exp(-a) = 2^{-m/B} * exp(r_l),   r_l in [ (B-1)/B*ln2 , ln2 ),
+ * which keeps the polynomial input r_l in a tiny band near ln2 (~0.672
+ * .. 0.693).  On that band exp(r_l) ~ 2 and |1 - exp(r_l)| ~ 1, so the
+ * "rejection error"  |p - f| / |1 - f|  does NOT blow up the way it does
+ * when the input is allowed to approach 0.  See docs/design-notes/AVXExp.md.
+ *
+ * Why fpminimax (and not GALACTICS):  GALACTICS' Sobolev+LLL machinery is
+ * built to find polynomials with small *integer* coefficients for a
+ * fixed-point integer Horner loop.  Here we want coefficients that live
+ * exactly on the binary64 grid and minimize the *infinity-norm relative*
+ * error -- that is precisely what Sollya's fpminimax does (Brisebarre &
+ * Chevillard's floating-point-coefficient minimax via LLL).
+ *
+ * The caller (tools/avxexp/run_avxexp.sh) predefines:
+ *     LO, HI      interval endpoints (Sollya expressions, e.g. 31/32*log(2))
+ *     DMIN, DMAX  degree sweep range
+ *     TARGET      required relative precision in bits (e.g. 53)
+ * Run standalone with defaults:  sollya tools/avxexp/AVXPolyApprox.sollya
+ * ==================================================================== */
+
+prec = 200!;
+verbosity = 0!;
+
+/* ---- defaults (only used if the caller did not already define them) ---- */
+if (!isbound(LO))     then { LO     = 31/32*log(2); };
+if (!isbound(HI))     then { HI     = log(2);       };
+if (!isbound(DMIN))   then { DMIN   = 3;            };
+if (!isbound(DMAX))   then { DMAX   = 14;           };
+if (!isbound(TARGET)) then { TARGET = 43;           };
+
+f   = exp(x);
+dom = [LO; HI];
+
+print("======================================================================");
+print("AVXPolyApprox : exp(x) approximated by a binary64 polynomial");
+print("  interval [LO,HI] =", dom, " ~= [", LO, ",", HI, "]");
+print("  width            =", HI - LO);
+print("  degree sweep     =", DMIN, "..", DMAX);
+print("  target           =", TARGET, "bits (relative AND rejection)");
+print("======================================================================");
+print("");
+print("  d | rel.bits | reject.bits   (math approximation error of the poly)");
+print("----+----------+------------");
+
+chosen = -1;
+for d from DMIN to DMAX do {
+    /* constrain every one of the d+1 coefficients to binary64 (format D) */
+    fmt = [||];
+    for i from 0 to d do { fmt = fmt :. D; };
+    p = fpminimax(f, d, fmt, dom, relative, floating);
+
+    relerr = dirtyinfnorm(p/f - 1, dom);
+    rejerr = dirtyinfnorm((p - f)/(1 - f), dom);
+    relbits = floor(-log2(relerr));
+    rejbits = floor(-log2(rejerr));
+
+    print("  " @ d @ " |    " @ relbits @ "    |    " @ rejbits);
+
+    if ((chosen == -1) && (relbits >= TARGET) && (rejbits >= TARGET)) then {
+        chosen    = d;
+        chosenP   = p;
+        chosenrel = relbits;
+        chosenrej = rejbits;
+    };
+};
+
+print("");
+if (chosen == -1) then {
+    print(">>> No degree in [" @ DMIN @ "," @ DMAX @ "] met the " @ TARGET
+          @ "-bit target; raise DMAX.");
+} else {
+    print("======================================================================");
+    print(">>> CHOSEN degree = " @ chosen
+          @ "   (math: rel " @ chosenrel @ " bits, reject " @ chosenrej @ " bits)");
+    print(">>> NOTE: this is the polynomial's *mathematical* approximation error.");
+    print(">>>       A real binary64 Horner evaluation adds ~1 ULP (2^-52) of");
+    print(">>>       rounding on top, so keep a few bits of margin above the");
+    print(">>>       target (the double evaluation, not the poly, is the floor).");
+    print("======================================================================");
+    print("");
+    print("C array (paste-ready, exact round-trip decimal):");
+    print("static const double POLY_C[" @ (chosen+1) @ "] = {");
+    for i from 0 to chosen do {
+        print("    " @ coeff(chosenP, i) @ ",   /* C" @ i @ " */");
+    };
+    print("};");
+    print("");
+    print("IEEE-754 bit patterns (printdouble, for exact reproducibility):");
+    for i from 0 to chosen do {
+        print("  C" @ i @ " :");
+        printdouble(coeff(chosenP, i));
+    };
+};

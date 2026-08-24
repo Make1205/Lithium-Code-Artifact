@@ -1,0 +1,72 @@
+# IRS deterministic Known-Answer Test (KAT) record
+#
+# Produced by test/test_kat.c: a SHAKE256-seeded DRBG supplies randombytes(),
+# so keygen+sign are fully deterministic.  Per mode, a fixed master seed drives
+# N=10 (keygen, sign, verify) rounds; KAT_hash is FNV-1a over the entire
+# pk || sk || sig transcript.  Any change to the algorithm, constants, or byte
+# layout changes the hash.  Reruns reproduce it exactly (verified deterministic).
+#
+# Regenerate / check:
+#   cd ref && make MODES="120 180 260" check     # runs test_kat among the gates
+# Each test_kat prints: PASS test_kat mode=M N=10 accept=10 reject=10 KAT_hash=...
+#
+# Canonical values (accept=10/10, reject=10/10; with committed generated tables):
+
+Lithium-120  pk=1056  sk=1984  sig=1187  KAT_hash=16043336652881898616
+Lithium-180  pk=1472  sk=2720  sig=1618  KAT_hash=12054898970128143599
+Lithium-260  pk=2080  sk=3808  sig=2348  KAT_hash=14183906608478196884
+
+# Shared by ref == avx2 == avx512 (default integer exp), byte-identical.
+#
+# History: the current values record the streamlined int32 sampler datapath.
+# The sampler now writes magnitudes/candidates STRAIGHT into the int32
+# poly.coeffs (no int16 staging or int16<->int32 round-trip; the SIMD CDT
+# kernels store their 32-bit lanes directly instead of packing to int16, and
+# the avx512 gauss_finalize_batch narrows to int16 only internally and widens
+# the compacted result back to int32 at the store).  That widening is
+# KAT-NEUTRAL.  The KAT-CHANGING part is the key-noise tail repack: each
+# candidate's tail is only 2 bits (sign, zero-fold), so noise_stream_poly now
+# packs 4 candidates per tail byte (NOISE_BATCH/4 tail bytes per mini-batch
+# instead of NOISE_BATCH), which re-maps the noise random stream.  The
+# predecessor values (KAT-neutral int32 widening only, still 1 tail byte per
+# candidate) were
+#   (260488082462688452 / 7946171165032802962 / 1166548430155398110),
+# which recorded HEAD's 64-byte-SKSEED sampler-seed derivation (keygen/sign
+# seeds taken from the full SKSEED).  The expand_A0_ntt
+# vectorization refactor layered on top -- the int32 flat[M*ELL*N] staging
+# buffer dropped in favour of sampling uint16 STRAIGHT into (uint16_t*)A0h,
+# with Kyber rej_uniform_avx-style SIMD rejection (avx2: BMI2 pdep/pext
+# compaction; avx512: epi16 vpcompressw, with a vpcompressd + vpmovdw narrow
+# fallback when VBMI2 is absent) -- is KAT-NEUTRAL (verified ref==avx2==avx512,
+# both avx512 branches produce these same hashes).  The predecessor values were
+#   (16073584959312876858 / 18204602727810236833 / 4980115632847006284),
+# which supersede the coefficient-domain-b key format; pk/sk now store
+# canonical bn = NTT_ref(b) in ref/ ntt16 order, imported by AVX backends with
+# nttunpack.  The previous b-format hashes were
+#   (18352036547047760584 / 5595187523522968925 / 9712937748961618270).
+# Those superseded the true-rANS-PMF / reserve update's predecessor
+#   (9223304692781725196 / 857275116803324569 / 17278504775751774861),
+# which used the old Bernoulli-only hint table and shorter reserves.  That set
+# superseded the Pre-NTT hashes
+#   (9350603581648885583 / 8116435182795756284 / 5009748601455142825),
+# changed by the AVX-512-driven sampler rework (all in shared ref/, so the
+# three backends re-record together): (1) GAUSS_BATCH 16 -> 32 (the IPC-optimal
+# two-16-lane-stream sigma2 width; re-groups the mini-batch bytes), (2) the
+# unified Gaussian y-stream widened 4 -> 8 domain-separated sub-streams (full
+# keccak8x utilisation), and (3) a unified, no-waste key-noise stream (the
+# 8-way Keccak never idles a lane) sampled via the grouped, SIMD-friendly
+# noise_magnitude_batch.  Those superseded the unified-y-sampling hashes
+#   (3487747565001915018 / 10506770788453170881 / 1307395816069611136),
+# from the Pre-NTT A0 seed-to-NTT scheme; which superseded the original
+# per-poly-single-stream hashes
+#   (6197531198207990231 / 3776062869975405638 / 1508001960568897506).
+
+# Sizes vs docs/design-notes/param.md:
+#   pk  : 1056 / 1472 / 2080  -- EXACT match to param.md PkBytes.
+#   sig : 1187 / 1618 / 2348  -- challenge (32/32/64) + rANS block
+#         (2-byte length + R=481/688/746) + z_lo (672/896/1536).  R is
+#         sized by tools/SigSize.py for a strict 2^-100 Bernstein overflow
+#         bound using the true rounded-z-head and MakeHint PMFs.  The reserve
+#         tail is zero-padded and authenticated by the verifier.
+#   sk  : rho || tr || key || noise(f0,s0,e) || bn, where bn = NTT_ref(b)
+#         in canonical ref/ ntt16 order (AVX backends import with nttunpack).

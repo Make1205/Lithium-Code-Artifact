@@ -1,0 +1,49 @@
+======================================================================
+AVXPolyApprox : exp(x) approximated by a binary64 polynomial
+  interval [LO,HI] = [0.6065037829899521457400781062759044970660626175652233473555945;0.6931471805599453094172321214581765680755001343602552541206806]  ~= [ 0.875 * log(2) , log(2) ]
+  width            = log(2) - 0.875 * log(2)
+  degree sweep     = 5 .. 8
+  target           = 43 bits (relative AND rejection)
+======================================================================
+
+  d | rel.bits | reject.bits   (math approximation error of the poly)
+----+----------+------------
+  5 |    41    |    40
+  6 |    50    |    48
+  7 |    58    |    57
+  8 |    67    |    66
+
+======================================================================
+>>> CHOSEN degree = 6   (math: rel 50 bits, reject 48 bits)
+>>> NOTE: this is the polynomial's *mathematical* approximation error.
+>>>       A real binary64 Horner evaluation adds ~1 ULP (2^-52) of
+>>>       rounding on top, so keep a few bits of margin above the
+>>>       target (the double evaluation, not the poly, is the floor).
+======================================================================
+
+C array (paste-ready, exact round-trip decimal):
+static const double POLY_C[7] = {
+    1.00001702968862193898758050636388361454010009765625,   /* C0 */
+    0.999818112415007842486147637828253209590911865234375,   /* C1 */
+    0.5008292820587139093646555920713581144809722900390625,   /* C2 */
+    0.1645789033942080259453888402276788838207721710205078125,   /* C3 */
+    4.478773690806965579458420734226820059120655059814453125e-2,   /* C4 */
+    5.590660595377779963632836057740860269404947757720947265625e-3,   /* C5 */
+    2.6598531260834945566529086136142723262310028076171875e-3,   /* C6 */
+};
+
+IEEE-754 bit patterns (printdouble, for exact reproducibility):
+  C0 :
+0x3ff00011db5f4a84
+  C1 :
+0x3feffe828dd8ab4c
+  C2 :
+0x3fe006cb216a4862
+  C3 :
+0x3fc510ebe7d84701
+  C4 :
+0x3fa6ee6b129063ca
+  C5 :
+0x3f76e63b86b91249
+  C6 :
+0x3f65ca1dc609c3c0

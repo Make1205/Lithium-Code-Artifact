@@ -1,0 +1,84 @@
+=== Lithium-Code security fault injection matrix ===
+date_utc: 2026-06-09T00:17:07Z
+backends: ref avx2 avx512
+modes: 120 180 260
+
+## backend=ref target=security_fault_injection
+make: Entering directory '<artifact-root>/ref'
+built: [security_fault_injection] x [120 180 260]
+=== Lithium-120 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=120 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-180 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=180 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-260 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=260 cases=5 rb_calls=6 rb_bytes=192
+make: Leaving directory '<artifact-root>/ref'
+
+## backend=avx2 target=security_fault_injection
+make: Entering directory '<artifact-root>/avx2'
+built: [security_fault_injection] x [120 180 260]
+=== Lithium-120 AVX2 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=120 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-180 AVX2 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=180 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-260 AVX2 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=260 cases=5 rb_calls=6 rb_bytes=192
+make: Leaving directory '<artifact-root>/avx2'
+
+## backend=avx512 target=security_fault_injection
+make: Entering directory '<artifact-root>/avx512'
+built: [security_fault_injection] x [120 180 260]
+=== Lithium-120 AVX-512 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=120 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-180 AVX-512 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=180 cases=5 rb_calls=6 rb_bytes=192
+=== Lithium-260 AVX-512 ===
+  adjacent coefficient repetition  caught detector=two-signature transcript diff
+  repeated nonce                   caught detector=duplicate signature detector
+  cleared signing secret           caught detector=verify-under-original-pk
+  wrong hash input length          caught detector=message-length binding
+  wrong rejection counter behavior caught detector=trace/hash/randombytes counter
+PASS security_fault_injection mode=260 cases=5 rb_calls=6 rb_bytes=192
+make: Leaving directory '<artifact-root>/avx512'
+
+OVERALL: PASS

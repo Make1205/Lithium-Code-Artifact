@@ -1,0 +1,424 @@
+=== Lithium-Code  avx2/  per-component profile (cycles/op, make profile) ===
+ date    : 2026-06-09T04:06:12Z
+ kernel  : Linux 6.11.0-26-generic
+ cpu     : 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
+ cc      : cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+ cflags  : -O3 -fstack-protector-strong -Wall -Wextra -std=c99 -I. -I../ref -I../ref/test -mavx2 -mbmi2 -mpopcnt -march=native -mtune=native -mno-avx512f -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X
+
+-- default build: integer exp --
+
+=== IRS profile: mode=120  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         10198    3.23%   (calls 500)
+  sample_noise (f0,s0,e)           207083   65.51%   (calls 982)
+  norm window                        1541    0.49%   (calls 982)
+  compute_b (NTT/invert)            49267   15.58%   (calls 500)
+  pack pk/sk                        48029   15.19%   (calls 500)
+  TOTAL (sum top-level)            316120  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             48910  100.00%
+  TOTAL squeezed                    48910
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      44129   97.96%
+  rej_tail                            919    2.04%
+  TOTAL consumed                    45048
+
+
+=== IRS profile: mode=120  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5896    1.66%   (calls 2000)
+  expand_A0                          9412    2.66%   (calls 2000)
+  sample_y (Gaussian)              229198   64.71%   (calls 2000)
+    shake (keccak)                 120612   52.62% of parent
+    BaseSampler (sigma2)            13832    6.04% of parent
+    ApproxExp                       56180   24.51% of parent
+    a_q60+finalize+y                26005   11.35% of parent
+  commitment (NTT mat-mul)          10611    3.00%   (calls 2000)
+    ntt forward                      2001   18.87% of parent
+    ntt pointwise/basemul            2363   22.27% of parent
+    ntt inverse                      1189   11.21% of parent
+  highbits/lsb                       1212    0.34%   (calls 2000)
+  challenge (hash+sample)            9944    2.81%   (calls 2000)
+  sign_irs (rejection)              66585   18.80%   (calls 2000)
+    approx_exp_wide/small            3891    5.84% of parent
+  normcheck                           858    0.24%   (calls 2000)
+  makehint                            699    0.20%   (calls 2000)
+  pack (rANS)                       19795    5.59%   (calls 2000)
+  TOTAL (sum top-level)            354213  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.32%
+  A0                                 2688    6.82%
+  gauss                             36179   91.82%
+  challenge                           168    0.43%
+  sign_irs                            240    0.61%
+  TOTAL squeezed                    39403
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               160    0.45%
+  sigma2(RCDT)                      20716   58.34%
+  y                                  1510    4.25%
+  rej_tail                          13123   36.96%
+  TOTAL consumed                    35510
+
+
+=== IRS profile: mode=120  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     23627   33.30%   (calls 2000)
+  setup (tr/mu)                     11729   16.53%   (calls 2000)
+  expand_A0 + b-hat NTT              9348   13.18%   (calls 2000)
+  commitment (NTT mat-mul)           6537    9.21%   (calls 2000)
+  usehint/lsb                        5783    8.15%   (calls 2000)
+  challenge (hash+sample)           10220   14.40%   (calls 2000)
+  normcheck (z reconstruct)          3706    5.22%   (calls 2000)
+  TOTAL (sum top-level)             70952  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              2984  100.00%
+  TOTAL squeezed                     2984
+
+
+
+=== IRS profile: mode=180  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         19001    4.23%   (calls 500)
+  sample_noise (f0,s0,e)           291528   64.91%   (calls 976)
+  norm window                        2081    0.46%   (calls 976)
+  compute_b (NTT/invert)            58237   12.97%   (calls 500)
+  pack pk/sk                        78289   17.43%   (calls 500)
+  TOTAL (sum top-level)            449138  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             69219  100.00%
+  TOTAL squeezed                    69219
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      61366   97.96%
+  rej_tail                           1278    2.04%
+  TOTAL consumed                    62644
+
+
+=== IRS profile: mode=180  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5836    1.03%   (calls 2000)
+  expand_A0                         17949    3.16%   (calls 2000)
+  sample_y (Gaussian)              313637   55.30%   (calls 2000)
+    shake (keccak)                 163321   52.07% of parent
+    BaseSampler (sigma2)            21185    6.75% of parent
+    ApproxExp                       76316   24.33% of parent
+    a_q60+finalize+y                36028   11.49% of parent
+  commitment (NTT mat-mul)          17380    3.06%   (calls 2000)
+    ntt forward                      2173   12.50% of parent
+    ntt pointwise/basemul            5506   31.68% of parent
+    ntt inverse                      1742   10.03% of parent
+  highbits/lsb                       1302    0.23%   (calls 2000)
+  challenge (hash+sample)           14962    2.64%   (calls 2000)
+  sign_irs (rejection)             163556   28.84%   (calls 2000)
+    approx_exp_wide/small            7341    4.49% of parent
+  normcheck                          1173    0.21%   (calls 2000)
+  makehint                           1029    0.18%   (calls 2000)
+  pack (rANS)                       30332    5.35%   (calls 2000)
+  TOTAL (sum top-level)            567160  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.23%
+  A0                                 5376    9.76%
+  gauss                             48957   88.84%
+  challenge                           184    0.33%
+  sign_irs                            464    0.84%
+  TOTAL squeezed                    55109
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               224    0.46%
+  sigma2(RCDT)                      28157   58.22%
+  y                                  2053    4.25%
+  rej_tail                          17926   37.07%
+  TOTAL consumed                    48361
+
+
+=== IRS profile: mode=180  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     36743   33.53%   (calls 2000)
+  setup (tr/mu)                     15270   13.94%   (calls 2000)
+  expand_A0 + b-hat NTT             17689   16.14%   (calls 2000)
+  commitment (NTT mat-mul)          11584   10.57%   (calls 2000)
+  usehint/lsb                        7205    6.58%   (calls 2000)
+  challenge (hash+sample)           15332   13.99%   (calls 2000)
+  normcheck (z reconstruct)          5753    5.25%   (calls 2000)
+  TOTAL (sum top-level)            109580  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              5688  100.00%
+  TOTAL squeezed                     5688
+
+
+
+=== IRS profile: mode=260  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         19244    2.81%   (calls 500)
+  sample_noise (f0,s0,e)           432755   63.16%   (calls 1013)
+  norm window                        2951    0.43%   (calls 1013)
+  compute_b (NTT/invert)           116246   16.97%   (calls 504)
+  pack pk/sk                       113963   16.63%   (calls 500)
+  TOTAL (sum top-level)            685160  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             97727  100.00%
+  TOTAL squeezed                    97727
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      88987   97.96%
+  rej_tail                           1853    2.04%
+  TOTAL consumed                    90841
+
+
+=== IRS profile: mode=260  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5868    0.80%   (calls 2000)
+  expand_A0                         17942    2.46%   (calls 2000)
+  sample_y (Gaussian)              418529   57.40%   (calls 2000)
+    shake (keccak)                 219301   52.40% of parent
+    BaseSampler (sigma2)            27919    6.67% of parent
+    ApproxExp                      100578   24.03% of parent
+    a_q60+finalize+y                48436   11.57% of parent
+  commitment (NTT mat-mul)          17827    2.45%   (calls 2000)
+    ntt forward                      4590   25.75% of parent
+    ntt pointwise/basemul            1038    5.82% of parent
+    ntt inverse                      2767   15.52% of parent
+  highbits/lsb                       2387    0.33%   (calls 2000)
+  challenge (hash+sample)           18718    2.57%   (calls 2000)
+  sign_irs (rejection)             207223   28.42%   (calls 2000)
+    approx_exp_wide/small            7373    3.56% of parent
+  normcheck                          1546    0.21%   (calls 2000)
+  makehint                           1367    0.19%   (calls 2000)
+  pack (rANS)                       37735    5.18%   (calls 2000)
+  TOTAL (sum top-level)            729147  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.18%
+  A0                                 5376    7.44%
+  gauss                             66105   91.47%
+  challenge                           200    0.28%
+  sign_irs                            464    0.64%
+  TOTAL squeezed                    72273
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               320    0.49%
+  sigma2(RCDT)                      37790   57.78%
+  y                                  2755    4.21%
+  rej_tail                          24543   37.52%
+  TOTAL consumed                    65410
+
+
+=== IRS profile: mode=260  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     40812   31.83%   (calls 2000)
+  setup (tr/mu)                     20830   16.25%   (calls 2000)
+  expand_A0 + b-hat NTT             17865   13.94%   (calls 2000)
+  commitment (NTT mat-mul)          10457    8.16%   (calls 2000)
+  usehint/lsb                       11626    9.07%   (calls 2000)
+  challenge (hash+sample)           19290   15.05%   (calls 2000)
+  normcheck (z reconstruct)          7318    5.71%   (calls 2000)
+  TOTAL (sum top-level)            128201  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              5704  100.00%
+  TOTAL squeezed                     5704
+
+
+
+-- AVX2EXP=1 build: 4-wide binary64 ApproxExp --
+
+=== IRS profile: mode=120 (float exp)  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         10249    3.18%   (calls 500)
+  sample_noise (f0,s0,e)           214122   66.36%   (calls 1017)
+  norm window                        1556    0.48%   (calls 1017)
+  compute_b (NTT/invert)            48913   15.16%   (calls 500)
+  pack pk/sk                        47825   14.82%   (calls 500)
+  TOTAL (sum top-level)            322667  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             50490  100.00%
+  TOTAL squeezed                    50490
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      45650   97.96%
+  rej_tail                            951    2.04%
+  TOTAL consumed                    46601
+
+
+=== IRS profile: mode=120 (float exp)  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5874    1.81%   (calls 2000)
+  expand_A0                          9211    2.84%   (calls 2000)
+  sample_y (Gaussian)              198841   61.37%   (calls 2000)
+    shake (keccak)                 119400   60.05% of parent
+    BaseSampler (sigma2)            13846    6.96% of parent
+    ApproxExp                       26808   13.48% of parent
+    a_q60+finalize+y                26305   13.23% of parent
+  commitment (NTT mat-mul)          10370    3.20%   (calls 2000)
+    ntt forward                      1931   18.63% of parent
+    ntt pointwise/basemul            2315   22.33% of parent
+    ntt inverse                      1132   10.92% of parent
+  highbits/lsb                       1226    0.38%   (calls 2000)
+  challenge (hash+sample)            9943    3.07%   (calls 2000)
+  sign_irs (rejection)              67443   20.81%   (calls 2000)
+    approx_exp_wide/small            3888    5.77% of parent
+  normcheck                           855    0.26%   (calls 2000)
+  makehint                            701    0.22%   (calls 2000)
+  pack (rANS)                       19557    6.04%   (calls 2000)
+  TOTAL (sum top-level)            324023  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.33%
+  A0                                 2688    6.83%
+  gauss                             36146   91.81%
+  challenge                           168    0.43%
+  sign_irs                            240    0.61%
+  TOTAL squeezed                    39370
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               160    0.45%
+  sigma2(RCDT)                      20699   58.34%
+  y                                  1509    4.25%
+  rej_tail                          13114   36.96%
+  TOTAL consumed                    35482
+
+
+=== IRS profile: mode=120 (float exp)  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     23590   33.18%   (calls 2000)
+  setup (tr/mu)                     11679   16.43%   (calls 2000)
+  expand_A0 + b-hat NTT              9320   13.11%   (calls 2000)
+  commitment (NTT mat-mul)           6588    9.27%   (calls 2000)
+  usehint/lsb                        5790    8.14%   (calls 2000)
+  challenge (hash+sample)           10266   14.44%   (calls 2000)
+  normcheck (z reconstruct)          3870    5.44%   (calls 2000)
+  TOTAL (sum top-level)             71106  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              2984  100.00%
+  TOTAL squeezed                     2984
+
+
+
+=== IRS profile: mode=180 (float exp)  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         18367    4.13%   (calls 500)
+  sample_noise (f0,s0,e)           288747   64.97%   (calls 985)
+  norm window                        2086    0.47%   (calls 985)
+  compute_b (NTT/invert)            57337   12.90%   (calls 500)
+  pack pk/sk                        77876   17.52%   (calls 500)
+  TOTAL (sum top-level)            444416  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             69778  100.00%
+  TOTAL squeezed                    69778
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      61930   97.96%
+  rej_tail                           1290    2.04%
+  TOTAL consumed                    63220
+
+
+=== IRS profile: mode=180 (float exp)  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5766    1.09%   (calls 2000)
+  expand_A0                         17673    3.34%   (calls 2000)
+  sample_y (Gaussian)              273951   51.72%   (calls 2000)
+    shake (keccak)                 163587   59.71% of parent
+    BaseSampler (sigma2)            21255    7.76% of parent
+    ApproxExp                       36675   13.39% of parent
+    a_q60+finalize+y                35644   13.01% of parent
+  commitment (NTT mat-mul)          17348    3.28%   (calls 2000)
+    ntt forward                      2185   12.60% of parent
+    ntt pointwise/basemul            5507   31.75% of parent
+    ntt inverse                      1741   10.04% of parent
+  highbits/lsb                       1334    0.25%   (calls 2000)
+  challenge (hash+sample)           15079    2.85%   (calls 2000)
+  sign_irs (rejection)             166284   31.39%   (calls 2000)
+    approx_exp_wide/small            7354    4.42% of parent
+  normcheck                          1179    0.22%   (calls 2000)
+  makehint                           1047    0.20%   (calls 2000)
+  pack (rANS)                       30044    5.67%   (calls 2000)
+  TOTAL (sum top-level)            529709  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.23%
+  A0                                 5376    9.75%
+  gauss                             48979   88.84%
+  challenge                           184    0.33%
+  sign_irs                            464    0.84%
+  TOTAL squeezed                    55131
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               224    0.46%
+  sigma2(RCDT)                      28166   58.22%
+  y                                  2053    4.25%
+  rej_tail                          17932   37.07%
+  TOTAL consumed                    48376
+
+
+=== IRS profile: mode=180 (float exp)  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     37510   34.11%   (calls 2000)
+  setup (tr/mu)                     15201   13.82%   (calls 2000)
+  expand_A0 + b-hat NTT             17541   15.95%   (calls 2000)
+  commitment (NTT mat-mul)          11519   10.48%   (calls 2000)
+  usehint/lsb                        7155    6.51%   (calls 2000)
+  challenge (hash+sample)           15245   13.87%   (calls 2000)
+  normcheck (z reconstruct)          5783    5.26%   (calls 2000)
+  TOTAL (sum top-level)            109958  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              5688  100.00%
+  TOTAL squeezed                     5688
+
+
+
+=== IRS profile: mode=260 (float exp)  (per-op, averaged over 500) ===
+-- keygen TIMING (cycles/op, % of total) --
+  expand_A0                         18263    2.80%   (calls 500)
+  sample_noise (f0,s0,e)           407271   62.50%   (calls 983)
+  norm window                        2804    0.43%   (calls 983)
+  compute_b (NTT/invert)           112200   17.22%   (calls 506)
+  pack pk/sk                       111088   17.05%   (calls 500)
+  TOTAL (sum top-level)            651629  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                             94953  100.00%
+  TOTAL squeezed                    94953
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  sigma2(RCDT)                      86315   97.96%
+  rej_tail                           1798    2.04%
+  TOTAL consumed                    88113
+
+
+=== IRS profile: mode=260 (float exp)  (per-op, averaged over 2000) ===
+-- sign TIMING (cycles/op, % of total) --
+  setup (tr/mu/rhoprime)             5868    0.88%   (calls 2000)
+  expand_A0                         17753    2.68%   (calls 2000)
+  sample_y (Gaussian)              364218   54.91%   (calls 2000)
+    shake (keccak)                 217296   59.66% of parent
+    BaseSampler (sigma2)            27260    7.48% of parent
+    ApproxExp                       49252   13.52% of parent
+    a_q60+finalize+y                47690   13.09% of parent
+  commitment (NTT mat-mul)          17894    2.70%   (calls 2000)
+    ntt forward                      4613   25.78% of parent
+    ntt pointwise/basemul            1047    5.85% of parent
+    ntt inverse                      2785   15.56% of parent
+  highbits/lsb                       2352    0.35%   (calls 2000)
+  challenge (hash+sample)           18913    2.85%   (calls 2000)
+  sign_irs (rejection)             196599   29.64%   (calls 2000)
+    approx_exp_wide/small            7438    3.78% of parent
+  normcheck                          1530    0.23%   (calls 2000)
+  makehint                           1360    0.21%   (calls 2000)
+  pack (rANS)                       36774    5.54%   (calls 2000)
+  TOTAL (sum top-level)            663266  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  setup                               128    0.18%
+  A0                                 5376    7.44%
+  gauss                             66106   91.47%
+  challenge                           200    0.28%
+  sign_irs                            464    0.64%
+  TOTAL squeezed                    72274
+-- RANDOMNESS: sampler consumption (bytes/sig) --
+  signs                               320    0.49%
+  sigma2(RCDT)                      37795   57.78%
+  y                                  2755    4.21%
+  rej_tail                          24547   37.52%
+  TOTAL consumed                    65419
+
+
+=== IRS profile: mode=260 (float exp)  (per-op, averaged over 2000) ===
+-- verify TIMING (cycles/op, % of total) --
+  unpack pk/sig                     41592   31.96%   (calls 2000)
+  setup (tr/mu)                     20828   16.01%   (calls 2000)
+  expand_A0 + b-hat NTT             17827   13.70%   (calls 2000)
+  commitment (NTT mat-mul)          10682    8.21%   (calls 2000)
+  usehint/lsb                       11930    9.17%   (calls 2000)
+  challenge (hash+sample)           19874   15.27%   (calls 2000)
+  normcheck (z reconstruct)          7388    5.68%   (calls 2000)
+  TOTAL (sum top-level)            130123  100.00%
+-- RANDOMNESS: SHAKE squeezed (bytes/sig, % of total) --
+  other                              5704  100.00%
+  TOTAL squeezed                     5704
+
+

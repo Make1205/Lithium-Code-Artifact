@@ -1,0 +1,16 @@
+=== Lithium-Code  avx2/  AVX2 exp speed (median rdtsc cycles, speed_exp_avx2) ===
+ date    : 2026-06-11T01:39:30Z
+ kernel  : Linux 6.11.0-26-generic
+ cpu     : 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
+ cc      : cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+ cflags  : -O3 -fstack-protector-strong -Wall -Wextra -std=c99 -I. -I../ref -I../ref/test -mavx2 -mbmi2 -mpopcnt -march=native -mtune=native -mno-avx512f -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X -DAVX2_EXP -ffp-contract=off -fno-fast-math
+
+exp performance is mode-independent; using mode 120.
+-- AVX2EXP=1 build: W4/W8/W16 binary64 exp kernels --
+=== Lithium-120 AVX2 ===
+W4  AVX2 exp (1 stream )        : 9.01 cyc/out
+W8  AVX2 exp (2 streams)        : 6.95 cyc/out
+W16 AVX2 exp (4 streams)        : 6.81 cyc/out
+speedup W16 vs W4 x1.32   (W16 vs W8 x1.02)
+PASS speed_exp_avx2 mode=120 rel[0,7.369]={W4 1.380e-15, W8 1.380e-15, W16 1.380e-15} wrapper=OK (gate 2^-43) sink=2.03e+06
+

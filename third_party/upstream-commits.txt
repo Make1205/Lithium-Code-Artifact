@@ -1,0 +1,10 @@
+machine.note = this manifest records the upstream revisions selected for reproducible benchmark checkout
+recorded.date = 2026-06-03
+
+commits.dilithium = bba9534a3c5cbef66481cd6518d786e23ae601b5 (https://github.com/pq-crystals/dilithium.git, HEAD of master on 2026-06-03, no exact tag)
+commits.falcon_ref = 3aa50485d5f992adbca8ce32a307401d1ed37dc8 (https://github.com/pornin/c-fn-dsa.git, HEAD of main on 2026-06-03, no exact tag)
+commits.falcon_opt = 61b326e9bb6afe2ea4927e7a25832e7a64485367 (https://github.com/Ji-Peng/VecFalcon.git, HEAD of main on 2026-06-03, no exact tag)
+commits.haetae = 6d32fea7bb518d59c20cdb9fde048bcbfd1bdec7 (https://github.com/Ji-Peng/HAETAE-Code-Ref.git, HEAD of main on 2026-06-03, no exact tag)
+commits.haetae_base = 0896ebec2441804f13ce2fca9c942f32fc62805c (https://github.com/kpqc-cryptocraft/KpqClean_ver2.git, exact tag v2.0.0)
+commits.hawk = 1b9fef52559273fe7b40fe3e22968eaedd3a4c2a (https://github.com/hawk-sign/dev.git, HEAD of main on 2026-06-06, no exact tag)
+commits.dilithium_xu = 100eb09973bce5e41fd14373aa279ddca06ef1d2 (https://github.com/xurq5953/Optimizing-Dilithium-Implementation-with-AVX2-512.git, HEAD of main on 2026-06-06, no exact tag)

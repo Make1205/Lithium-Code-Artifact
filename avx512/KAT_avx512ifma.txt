@@ -1,0 +1,11 @@
+# AVX-512 IFMA-exp build KAT hashes -- make AVX512IFMAEXP=1
+# Locked by `make check-kat-avx512ifma`.
+#
+# NOTE: the Q51 deg-5 IFMA exp is ~2^-48 from the scalar Q63 deg-6 kernel, so it
+# CAN diverge from the shared (integer-exp) KAT on a ~2^-43-measure set of
+# inputs that flips a boundary accept/reject.  For these recorded N=10 vectors
+# it happens to match the shared KAT exactly.  Full bit-exact reconciliation
+# with the scalar Q63 kernel is a TODO (see DESIGN.md Section 7).
+mode=120 KAT_hash=16043336652881898616
+mode=180 KAT_hash=12054898970128143599
+mode=260 KAT_hash=14183906608478196884

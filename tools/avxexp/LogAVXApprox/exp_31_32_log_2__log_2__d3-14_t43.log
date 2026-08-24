@@ -1,0 +1,54 @@
+======================================================================
+AVXPolyApprox : exp(x) approximated by a binary64 polynomial
+  interval [LO,HI] = [0.671486331167447018497943617662608550323140755161497277429408;0.6931471805599453094172321214581765680755001343602552541206806]  ~= [ 0.96875 * log(2) , log(2) ]
+  width            = log(2) - 0.96875 * log(2)
+  degree sweep     = 3 .. 14
+  target           = 43 bits (relative AND rejection)
+======================================================================
+
+  d | rel.bits | reject.bits   (math approximation error of the poly)
+----+----------+------------
+  3 |    33    |    32
+  4 |    43    |    42
+  5 |    53    |    52
+  6 |    63    |    62
+  7 |    74    |    73
+  8 |    84    |    83
+  9 |    87    |    86
+  10 |    87    |    86
+  11 |    87    |    86
+  12 |    88    |    86
+  13 |    84    |    83
+  14 |    16    |    15
+
+======================================================================
+>>> CHOSEN degree = 5   (math: rel 53 bits, reject 52 bits)
+>>> NOTE: this is the polynomial's *mathematical* approximation error.
+>>>       A real binary64 Horner evaluation adds ~1 ULP (2^-52) of
+>>>       rounding on top, so keep a few bits of margin above the
+>>>       target (the double evaluation, not the poly, is the floor).
+======================================================================
+
+C array (paste-ready, exact round-trip decimal):
+static const double POLY_C[6] = {
+    0.99974772580780169040082228093524463474750518798828125,   /* C0 */
+    1.0021851553302132398215462671942077577114105224609375,   /* C1 */
+    0.492160834701707960991967638619826175272464752197265625,   /* C2 */
+    0.1815089450259616821181651857841643504798412322998046875,   /* C3 */
+    2.61891498249621178240342800336293294094502925872802734375e-2,   /* C4 */
+    1.6487064382500742076853583739648456685245037078857421875e-2,   /* C5 */
+};
+
+IEEE-754 bit patterns (printdouble, for exact reproducibility):
+  C0 :
+0x3feffdeef1530949
+  C1 :
+0x3ff008f34d2ae10f
+  C2 :
+0x3fdf7f90285a9e11
+  C3 :
+0x3fc73baf6368b327
+  C4 :
+0x3f9ad1541808745f
+  C5 :
+0x3f90e1fc2951cdee

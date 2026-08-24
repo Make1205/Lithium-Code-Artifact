@@ -1,0 +1,35 @@
+=== Lithium-Code integration audit matrix ===
+date_utc: 2026-06-09T00:18:18Z
+backends: ref avx2 avx512
+modes: 120 180 260
+DIFF_FUZZ_N: 32
+diff_report: test/diff_fuzz_matrix.txt
+checklist_report: test/perf_review_checklist_status.txt
+
+## test/diff_fuzz_matrix.txt
+CASE mode=260 idx=23 mlen=75 siglen=2348 bitmap=0x7 case_hash=5098071516884201512 valid_rans_len=640 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=14988540538788097539 valid_h_hash=14958714018831443202 valid_z1_hash=16580033729611152416 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=2462816167678153431
+CASE mode=260 idx=24 mlen=92 siglen=2348 bitmap=0x7 case_hash=17746225594179348864 valid_rans_len=637 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=8873975520017208931 valid_h_hash=13318973536284743065 valid_z1_hash=15267068141154247601 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=15104689252783329381
+CASE mode=260 idx=25 mlen=13 siglen=2348 bitmap=0x7 case_hash=8301891888289201951 valid_rans_len=637 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=14539703872639931427 valid_h_hash=3662767303864816220 valid_z1_hash=4712589271601783328 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=14120808134154541452
+CASE mode=260 idx=26 mlen=30 siglen=2348 bitmap=0x7 case_hash=11414166392218783386 valid_rans_len=632 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=10869112490790065603 valid_h_hash=3894797953427720184 valid_z1_hash=7999128823605490513 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=15227464414057770075
+CASE mode=260 idx=27 mlen=47 siglen=2348 bitmap=0x7 case_hash=6553346674339510259 valid_rans_len=638 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=89229918436343555 valid_h_hash=10421996465541368392 valid_z1_hash=17774105323542970025 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=8005448315455063694
+CASE mode=260 idx=28 mlen=64 siglen=2348 bitmap=0x7 case_hash=13601489610883176319 valid_rans_len=628 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=16073482104597208227 valid_h_hash=3026680794749061861 valid_z1_hash=18173849723731947364 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=9110444018020465033
+CASE mode=260 idx=29 mlen=81 siglen=2348 bitmap=0x7 case_hash=6605507199954722989 valid_rans_len=635 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=6191316075894654595 valid_h_hash=9323245041539789589 valid_z1_hash=2336730297665267151 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=962292933606573145
+CASE mode=260 idx=30 mlen=2 siglen=2348 bitmap=0x7 case_hash=6390746994512543335 valid_rans_len=638 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=12357246221155464739 valid_h_hash=16573415458335333058 valid_z1_hash=17789749356722828158 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=18059072267570512845
+CASE mode=260 idx=31 mlen=19 siglen=2348 bitmap=0x7 case_hash=14512176340712271029 valid_rans_len=647 valid_pad_zero=1 valid_chal_w=58 valid_unpack_rc=0 valid_c_hash=7551638237249953731 valid_h_hash=17938510252695863385 valid_z1_hash=1638838062014236975 malformed_rans_len=65535 malformed_pad_zero=0 malformed_chal_w=58 malformed_unpack_rc=-1 malformed_c_hash=1469598103934665603 malformed_h_hash=1469598103934665603 malformed_z1_hash=1469598103934665603 summary_hash=13824711554892734819
+PASS diff_fuzz mode=260 cases=32 transcript_hash=1329710679076931563
+make: Leaving directory '<artifact-root>/avx512'
+
+DIFF-CONSISTENCY backend=ref vs=ref PASS normalized_lines=99
+DIFF-CONSISTENCY backend=avx2 vs=ref PASS normalized_lines=99
+DIFF-CONSISTENCY backend=avx512 vs=ref PASS normalized_lines=99
+OVERALL: PASS
+
+## test/perf_review_checklist_status.txt
+=== Lithium-Code performance-review checklist status ===
+date_utc: 2026-06-09T00:18:18Z
+PATH docs/design-notes/PERF_PATCH_REVIEW.md PASS
+PATH .github/pull_request_template.md PASS
+README_LINK PERF_PATCH_REVIEW.md PASS
+OVERALL: PASS
+
+OVERALL: PASS
