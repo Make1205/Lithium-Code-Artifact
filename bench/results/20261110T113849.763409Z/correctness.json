@@ -1,0 +1,23 @@
+[
+  {
+    "set": "120",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true,
+    "ordered_cross_pairs": 30
+  },
+  {
+    "set": "180",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true,
+    "ordered_cross_pairs": 30
+  },
+  {
+    "set": "260",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true,
+    "ordered_cross_pairs": 30
+  }
+]

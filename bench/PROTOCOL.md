@@ -26,12 +26,13 @@ gate remains required; a cloud QUICK run cannot certify that numerical gate.
 7. QUICK=1 uses 11 timing samples and 100 correctness/length signatures; only this
    mode runs in cloud. FULL uses 10001 timing samples and 10000 signatures and is
    executed locally. Upstream KAT case counts remain unchanged.
-8. A 3% same-machine FULL calibration requires the actual reference sample workload
-   and raw medians. QUICK, a different CPU, a changed source tree or a different
-   message/RNG/key corpus cannot certify that acceptance condition. Do not tune
-   the implementation or choose a favorable key just to force a historical ratio.
+8. Historical COPA comparisons are report-only. No percentage, CPU/GCC mismatch
+   or ratio may fail a run. CALIBRATION remains a backwards-compatible report
+   option; controlled attribution defaults to the recorded BENCH_SEED. FULL
+   same-machine runs separate source and driver/protocol factors; QUICK is only
+   a smoke check. Build failures, KAT, correctness and FMA audit still fail.
 
-Current blocker: COPA 3c676bd does not use this workload verbatim: it uses a
+Historical protocol differences (not a blocker): COPA 3c676bd does not use this workload verbatim: it uses a
 59-byte message, deterministic default entropy, fresh key triples, 20 warmups,
 serialized RDTSCP, benchmark source instrumentation and a modified AVX2 SHAKE.
 See NOTES.md. The first three requested rules are now applied to LITHIUM; other

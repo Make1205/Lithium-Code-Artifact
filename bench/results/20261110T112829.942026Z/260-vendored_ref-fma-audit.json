@@ -1,0 +1,114 @@
+{
+  "status": "PASS",
+  "executable": "driver",
+  "executable_fma_count": 0,
+  "explicit_intrinsics_allowed_objects": [],
+  "object_fma_counts": [
+    {
+      "file": "driver.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "0.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "1.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "2.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "3.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "4.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "5.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "6.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "7.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "8.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "9.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "10.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "11.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "extra0.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "extra1.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "cpucycles.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    },
+    {
+      "file": "speed_print.o",
+      "fma_count": 0,
+      "explicit_intrinsics_allowed": false,
+      "instructions": []
+    }
+  ],
+  "executable_instructions": [],
+  "unexpected_objects": [],
+  "unexpected_executable_instructions": [],
+  "note": "Explicit upstream intrinsics are preserved; compiler contraction is disabled for floating-point builds. Shared-library code is outside this executable audit."
+}

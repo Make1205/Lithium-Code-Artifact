@@ -1,0 +1,40 @@
+Lithium-Code third-party notices
+================================
+
+Copa reference baseline provenance
+---------------------------------
+Source: https://github.com/Ji-Peng/Lithium-Code-Artifact
+Commit: 81389d1971ef64f6469167ab10855e3594ea7729
+The existing ref/ tree was compared with this upstream commit and is
+identical before Copa-specific changes. No reference source was overwritten.
+The upstream MIT license is retained in LICENSES/LITHIUM-LICENSE.
+At milestone B, the retained default avx2/ and avx512/ source snapshot was
+byte-for-byte the same commit. It was already present in this repository; milestone B verified
+every retained blob rather than reimporting duplicate files. The source
+manifest is test/copa/lithium_simd_import/manifest.json.
+Opt-in AVX2 float-exp and AVX-512 IFMA-exp implementation/KAT assets are
+excluded. Makefile-only adapters reject those variants and support a RUNNER
+prefix for Intel SDE; default algorithm sources were unchanged at that milestone. The AVX-512
+build explicitly enables the VBMI/VBMI2 features already required by its
+unchanged default sampler on a non-AVX-512 build host.
+
+Lithium-Code itself is distributed under the MIT License; see LICENSE.
+
+This artifact also contains small pieces of third-party or externally derived material with the following provenance:
+
+- `ref/fips202.c` is based on public-domain Keccak/FIPS202 implementations: Ronny Van Keer's `crypto_hash/keccakc512/simple/` implementation from SUPERCOP and the public-domain TweetFips202 implementation by Gilles Van Assche, Daniel J. Bernstein, and Peter Schwabe.
+- `avx2/f1600x4.S` notes that it was taken from Bas Westerbaan's 4-way SHAKE implementation for SPHINCS+ and adapted to use Keccak Code Package byte-rotation style.
+- `avx512/keccakf1600x8.c`, `avx512/fips202x8.c`, and `avx512/fips202x8.h` are derived from the eXtended Keccak Code Package (XKCP), specifically the 8-way AVX-512 Keccak-f[1600] code path. XKCP's Keccak implementations are marked CC0/public domain upstream.
+- `third_party/*.txt` records upstream revisions used for benchmark comparison, and `third_party/*.patch` contains small local benchmark harness patches for those upstream projects. Those upstream projects retain their own licenses and are not vendored as part of the core Lithium-Code implementation; `external/` checkouts created by reproduction scripts are gitignored and are not part of the submitted artifact.
+
+If this artifact is redistributed with generated `external/` checkouts or third-party benchmark source trees, keep the corresponding upstream license files from those projects with the redistributed copy.
+
+Subsequent Copa adapters share the tagged scalar scheme and add local vector
+NTT/CRT, Q63, polynomial and XOF hooks. The Keccak wrappers replace typed
+double output stores with unaligned integer stores and copy exact short
+input tails, fixing sanitizer alignment reports and input overreads without
+changing the default KAT bytes.
+
+The SIMD signers additionally expose an attempt counter only when compiled
+with BENCH_COUNT_ATTEMPTS for the shared cycle benchmark. Ordinary builds
+exclude the counter and retain their default LITHIUM KAT behavior.

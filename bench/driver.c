@@ -54,6 +54,15 @@ int main(int argc,char**argv) {
    if(i>=warm){unsigned j=i-warm;kg[j+1]=kg[j]+dk;sg[j+1]=sg[j]+ds;vf[j+1]=vf[j]+dv;}
   }
   print_results("KeyGen",kg,count+1);print_results("Sign",sg,count+1);print_results("Verify",vf,count+1);
+#ifdef B_EXPANDED
+  must(!b_expand(sk),"expanded key preparation");
+  uint64_t *ex=calloc(count+1,sizeof *ex);must(ex!=NULL,"expanded allocation");
+  for(unsigned i=0;i<count+warm;i++){
+   slen=B_SIG;uint64_t a=cpucycles();int rc=b_expanded_sign(sig,&slen,msg,32);uint64_t dt=cpucycles()-a;must(!rc,"expanded signing");
+   if(i>=warm){unsigned j=i-warm;ex[j+1]=ex[j]+dt;}
+  }
+  must(!b_verify(sig,slen,msg,32,pk),"expanded verification");print_results("ExpandedSign",ex,count+1);free(ex);
+#endif
   free(kg);free(sg);free(vf);
 
  }else must(0,"mode");return 0;

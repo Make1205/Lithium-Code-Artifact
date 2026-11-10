@@ -152,7 +152,7 @@ used in config.json as the ratio denominators.
 | 180 | 1021189/1185004/250273 | 386785/520265/120965 |
 | 260 | 1426175/1522873/310186 | 557425/645780/143338 |
 
-### Acceptance status and local command
+### Historical 3% gate (removed; superseded by the report-only update below)
 
 The unified rules are in [PROTOCOL.md](PROTOCOL.md). The revised driver aligns
 flags, fresh-key population, warmup and optional seeded entropy while keeping
@@ -186,3 +186,78 @@ compiler contraction (15 FMA -> 0; equality restored), not a source defect.
 All runs now audit benchmark-owned objects and the linked driver with objdump
 and save *-fma-audit.json. Missing objdump fails preflight: apt install binutils.
 The measured default approx_exp path is integer; optional AVX2_EXP float kernels are not selected. fips202x4 double-pointer casts implement byte stores, not floating arithmetic. No contraction flag is needed for this workload; its flags and measured operations are preserved for calibration. All six builds must audit to zero FMA. ML-DSA and SHUTTLE are integer; HAETAE clean/official use fixed-point FFT. These unaffected repositories are left unchanged.
+
+
+## Report-only attribution update (2026-11-10)
+
+The user supplied local new-bench/COPA ratios: ref KeyGen 0.98–1.00,
+Sign 0.93–0.97, Verify 0.91–0.95; AVX2 KeyGen 0.94–0.97,
+Sign 0.85–0.91, Verify 0.85–0.89. CPU i7-10700K, GCC 11.4.0,
+10001 samples, 20 warmups and the same BENCH_SEED. These are user-reported
+ranges, not newly measured cloud FULL results.
+
+The former 3% acceptance gate is removed. calibration.json always reports
+REPORT_ONLY and ratios; neither a machine mismatch nor any ratio changes exit
+status. CALIBRATION=1 remains accepted for old commands but is not a gate.
+Timing now defaults to BENCH_SEED=copa-local-v3-fixed-corpus so all source
+conditions get the same keys/RNG stream. An explicit BENCH_SEED override is
+recorded. Native OS randomness remains available in the unchanged original
+provider, but is not the default for this controlled attribution workload.
+
+### Controlled source experiment
+
+bench/vendor/copa-3c676bd contains verbatim source bytes from Make1205/COPA
+3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac. Original Git symlinks are materialized
+as verbatim target bytes, not patched text. MANIFEST.json records original
+blob IDs, resolved targets and SHA256; all files are verified before building.
+COPA's checkout was not edited during this experiment. Licenses are retained.
+
+Each of 120/180/260 builds six variants: upstream ref/AVX2, vendored ref/AVX2
+without instrumentation, and those same vendored sources with the original
+BENCH_COUNT_ATTEMPTS macro enabled. All use the identical driver.c, RNG wrapper,
+32-byte message, byte keys, fresh triples, 20 warmups, timer files and GCC
+-O3 -march=native -ffp-contract=off. Namespace/include flags are equivalent;
+only the documented source snapshot and native instrumentation macro vary.
+No source lines were changed to add or remove instrumentation.
+
+source-object-comparison.json independently hashes ELF executable sections.
+The cloud builds show **all uninstrumented ref objects identical to upstream**;
+in AVX2 only fips202x4.c differs. Enabling instrumentation changes only sign.c.
+Driver and both timer objects match in all three source conditions. Thus the
+experiment controls the driver at both source and executable-section level.
+All three native KAT hashes pass in every condition, all six deterministic
+vector files per set match byte-for-byte, and all 30 ordered cross-verification
+pairs per set pass. FMA counts remain zero.
+
+### Cloud QUICK finding and limits of attribution
+
+The first controlled cloud QUICK at results/20261110T112829.942026Z reports
+AVX2 Sign vendor/upstream = 0.995/1.001/0.997 for 120/180/260;
+Verify = 1.000/1.013/0.997. Native-instrumented/vendor Sign ratios are
+0.991/0.995/1.001; Verify 0.997/1.000/1.008. These do not reproduce the local
+10–15% AVX2 gap as a vendored-code cost on this cloud CPU/compiler. Some QUICK
+KeyGen ratios fluctuate substantially, demonstrating why 11-sample cloud figures
+cannot establish same-machine quantitative attribution.
+
+Conclusion: the uninstrumented scalar algorithm machine code is unchanged;
+the controlled AVX2 source difference is confined to SHAKE4X, and the native
+instrumentation difference is confined to Sign. This cloud control does not
+support attributing the reported local AVX2 gap to those source changes. The
+old driver/protocol (including 59 vs 32 bytes, counter/fences, checks and layout)
+and run conditions remain the leading unresolved factors. We do not assert that
+cloud QUICK rules out a code effect on i7/GCC11, or invent a precise local split.
+
+FULL run.sh now emits the three source-condition triplets side by side and an
+algebraic decomposition in attribution.json and SUMMARY: code_factor =
+new-driver vendored-instrumented / new-driver upstream; driver_protocol_factor =
+new-driver vendored-instrumented / historical local_check vendored-instrumented;
+overall_factor = new-driver upstream / historical local_check. Therefore
+**overall_factor = driver_protocol_factor / code_factor**. The message change
+belongs to the driver/protocol factor. Historical cycle denominators are the
+exact original user medians. local_environment_comparable is informational only;
+on the user's FULL same-machine run these factors distinguish code from the
+remaining driver/protocol/run-state effect, without a percentage pass/fail rule.
+
+The same driver has optional expanded-key support behind B_EXPANDED; that branch
+is inactive for all LITHIUM variants and exists only to share the exact driver
+with the new COPA benchmark. No expanded LITHIUM operation is invented.

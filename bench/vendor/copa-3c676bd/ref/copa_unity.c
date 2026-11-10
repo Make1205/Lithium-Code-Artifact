@@ -1,0 +1,15 @@
+/* Single translation unit exposes cross-module hot calls to -O3 inlining.
+ * Keccak and the RNG remain separate; no nonstandard compiler flags needed. */
+#include "copa_scalar64.c"
+#include "copa_irs64.c"
+#include "ntt_crt.c"
+#include "poly_inv.c"
+#include "quant.c"
+#include "pack_pk.c"
+#include "copa_matrix.c"
+#include "copa_keygen.c"
+#include "copa_sampler.c"
+#include "copa_rans.c"
+#include "copa_sign.c"
+#include "copa_api.c"
+#include "copa_expanded_api.c"

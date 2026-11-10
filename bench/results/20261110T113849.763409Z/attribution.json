@@ -1,0 +1,150 @@
+{
+  "local_environment_comparable": false,
+  "formula": "overall_factor = driver_protocol_factor / code_factor",
+  "measurements": [
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "KeyGen",
+      "code_factor": 0.9865604764513365,
+      "driver_protocol_factor": 0.47984789419819934,
+      "overall_factor": 0.4863846724573995
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Sign",
+      "code_factor": 0.9972739339453226,
+      "driver_protocol_factor": 0.5987332719032261,
+      "overall_factor": 0.6003699199622847
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Verify",
+      "code_factor": 0.9846592559343068,
+      "driver_protocol_factor": 0.6570852984535508,
+      "overall_factor": 0.6673225224801922
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "code_factor": 0.9937657822369752,
+      "driver_protocol_factor": 0.4675772009180555,
+      "overall_factor": 0.47051046562051596
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Sign",
+      "code_factor": 0.9842213389974681,
+      "driver_protocol_factor": 0.5671489913032511,
+      "overall_factor": 0.5762413075507502
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Verify",
+      "code_factor": 0.992279826593028,
+      "driver_protocol_factor": 0.5601220207167041,
+      "overall_factor": 0.5644799034561363
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "KeyGen",
+      "code_factor": 1.0054698530988417,
+      "driver_protocol_factor": 0.7301048091979057,
+      "overall_factor": 0.7261329685298217
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Sign",
+      "code_factor": 0.9829715174142196,
+      "driver_protocol_factor": 0.5623432494742634,
+      "overall_factor": 0.5720849887426541
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Verify",
+      "code_factor": 0.9975888950068103,
+      "driver_protocol_factor": 0.6877250042953096,
+      "overall_factor": 0.6893871891894051
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "code_factor": 1.0085049122559206,
+      "driver_protocol_factor": 0.7014465400674794,
+      "overall_factor": 0.6955311090140517
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Sign",
+      "code_factor": 0.8036863104192556,
+      "driver_protocol_factor": 0.5904471759584059,
+      "overall_factor": 0.7346736759151586
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Verify",
+      "code_factor": 0.9696241746413052,
+      "driver_protocol_factor": 0.6106311743066175,
+      "overall_factor": 0.6297606745752904
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "KeyGen",
+      "code_factor": 0.8760643318745414,
+      "driver_protocol_factor": 0.508249688853051,
+      "overall_factor": 0.5801511034760812
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Sign",
+      "code_factor": 1.0724536909770845,
+      "driver_protocol_factor": 0.6532632727745518,
+      "overall_factor": 0.6091295859864874
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Verify",
+      "code_factor": 0.9986257403659131,
+      "driver_protocol_factor": 0.7332568201014875,
+      "overall_factor": 0.7342658920776567
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "code_factor": 1.0026205054551867,
+      "driver_protocol_factor": 0.49968515943848946,
+      "overall_factor": 0.4983791541462978
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Sign",
+      "code_factor": 0.9887502144770118,
+      "driver_protocol_factor": 0.6157158784725448,
+      "overall_factor": 0.6227213602155534
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Verify",
+      "code_factor": 0.9956390930152108,
+      "driver_protocol_factor": 0.6626086592529546,
+      "overall_factor": 0.6655108903431052
+    }
+  ]
+}

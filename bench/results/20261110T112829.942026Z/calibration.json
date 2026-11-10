@@ -1,0 +1,122 @@
+{
+  "status": "REPORT_ONLY",
+  "historical_environment": {
+    "cpu": "i7-10700K",
+    "gcc": "11.4.0",
+    "samples": 10001,
+    "warmup": 20,
+    "historical_message_bytes": 59,
+    "current_message_bytes": 32,
+    "seed": "copa-local-v3-fixed-corpus"
+  },
+  "measurements": [
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.4810913031061994
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.5984546935101949
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.6569384650624629
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.46574391047901764
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.570800823238722
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.5650609544880606
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.7174763927147668
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.5629356525378818
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.6964514749893117
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.6948589009397986
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.5895976089108436
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.6134253709750754
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.5326786684663523
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.5488448478632164
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.7298233962848099
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.500244875992286
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.6192991421227043
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.6524508504374277
+    }
+  ]
+}

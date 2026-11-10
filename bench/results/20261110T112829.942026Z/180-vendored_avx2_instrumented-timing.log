@@ -1,0 +1,14 @@
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T112829.942026Z/work/180-vendored_avx2_instrumented/driver time 11
+META 256 30977 1472 2720 1618
+KeyGen
+median: 271361 cycles/ticks
+average: 309372 cycles/ticks
+
+Sign
+median: 305759 cycles/ticks
+average: 318317 cycles/ticks
+
+Verify
+median: 75191 cycles/ticks
+average: 75087 cycles/ticks
+

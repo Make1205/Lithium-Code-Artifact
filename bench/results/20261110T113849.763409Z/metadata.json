@@ -1,0 +1,1150 @@
+{
+  "scale": "QUICK",
+  "timing_iterations": 11,
+  "signatures": 100,
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "affinity": 0,
+  "gcc": "gcc (Debian 14.2.0-19) 14.2.0",
+  "benchmark_commit": "c9862dd7e387fc5860f10aa661cd97586ad91ed7",
+  "tested_commit": "81389d1971ef64f6469167ab10855e3594ea7729",
+  "initial_commit": "81389d1971ef64f6469167ab10855e3594ea7729",
+  "initial_status": " M bench/NOTES.md\n M bench/PROTOCOL.md\n M bench/config.json\n M bench/driver.c\n M bench/run.py\n?? bench/results/20261110T112829.942026Z/\n?? bench/source_text_audit.py\n?? bench/vendor/\n",
+  "timing_warmup": 20,
+  "timing_key_population": "fresh key/signature per triple",
+  "timing_entropy": "SHAKE(seed,counter)",
+  "calibration_requested": true,
+  "benchmark_seed": "copa-local-v3-fixed-corpus",
+  "flags": [
+    "-O3",
+    "-march=native",
+    "-std=c99",
+    "-ffp-contract=off"
+  ],
+  "configuration": {
+    "scheme": "LITHIUM",
+    "initial_commit": "81389d1971ef64f6469167ab10855e3594ea7729",
+    "tested_commit": "81389d1971ef64f6469167ab10855e3594ea7729",
+    "sets": [
+      {
+        "name": "120",
+        "paper_pk": 1056,
+        "paper_sig": 1187,
+        "paper_q": 57601,
+        "require_equal": true,
+        "variants": [
+          {
+            "name": "ref",
+            "cwd": "ref",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ]
+          },
+          {
+            "name": "avx2",
+            "cwd": "avx2",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q57601n256/ntt.S",
+              "q57601n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ]
+          },
+          {
+            "name": "vendored_ref",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_avx2",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q57601n256/ntt.S",
+              "q57601n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_ref_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          },
+          {
+            "name": "vendored_avx2_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=120",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q57601n256/ntt.S",
+              "q57601n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=16043336652881898616"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          }
+        ]
+      },
+      {
+        "name": "180",
+        "paper_pk": 1472,
+        "paper_sig": 1618,
+        "paper_q": 30977,
+        "require_equal": true,
+        "variants": [
+          {
+            "name": "ref",
+            "cwd": "ref",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ]
+          },
+          {
+            "name": "avx2",
+            "cwd": "avx2",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q30977n256/ntt.S",
+              "q30977n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ]
+          },
+          {
+            "name": "vendored_ref",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_avx2",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q30977n256/ntt.S",
+              "q30977n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_ref_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          },
+          {
+            "name": "vendored_avx2_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=180",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q30977n256/ntt.S",
+              "q30977n256/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=12054898970128143599"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          }
+        ]
+      },
+      {
+        "name": "260",
+        "paper_pk": 2080,
+        "paper_sig": 2348,
+        "paper_q": 64513,
+        "require_equal": true,
+        "variants": [
+          {
+            "name": "ref",
+            "cwd": "ref",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ]
+          },
+          {
+            "name": "avx2",
+            "cwd": "avx2",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q64513n512/ntt.S",
+              "q64513n512/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ]
+          },
+          {
+            "name": "vendored_ref",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_avx2",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q64513n512/ntt.S",
+              "q64513n512/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": false
+          },
+          {
+            "name": "vendored_ref_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/ref",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          },
+          {
+            "name": "vendored_avx2_instrumented",
+            "cwd": "bench/vendor/copa-3c676bd/avx2",
+            "flags": [
+              "-DLITHIUM_MODE=260",
+              "-mavx2",
+              "-mbmi2",
+              "-mpopcnt",
+              "-mno-avx512f",
+              "-DUSE_AVX2_NTT",
+              "-DUSE_AVX2_SAMPLER",
+              "-DUSE_AVX2_SHAKE4X",
+              "-Itest",
+              "-I../ref",
+              "-I../ref/test",
+              "-include",
+              "config.h",
+              "-DBENCH_COUNT_ATTEMPTS"
+            ],
+            "sources": [
+              "ntt.c",
+              "reduce.c",
+              "polyvec.c",
+              "rounding.c",
+              "sampler.c",
+              "approx_exp.c",
+              "irs.c",
+              "packing.c",
+              "irs_rans.c",
+              "sign.c",
+              "fips202.c",
+              "symmetric-shake.c",
+              "fips202x4.c",
+              "f1600x4.S",
+              "q64513n512/ntt.S",
+              "q64513n512/ntt_consts.c"
+            ],
+            "extra_sources": [
+              {
+                "path": "randombytes.c",
+                "flags": [
+                  "-Drandombytes=bench_native_randombytes"
+                ]
+              },
+              {
+                "path": "../../../../bench/rng.c"
+              }
+            ],
+            "libs": [
+              "-lm"
+            ],
+            "kat": [
+              {
+                "name": "kat",
+                "sources": [
+                  "test/test_kat.c"
+                ],
+                "expect": "KAT_hash=14183906608478196884"
+              }
+            ],
+            "source_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+            "source_repository": "Make1205/COPA",
+            "instrumentation": true
+          }
+        ]
+      }
+    ],
+    "dependencies": [],
+    "calibration": {
+      "120": {
+        "ref": [
+          731.859,
+          746.648,
+          170.261
+        ],
+        "avx2": [
+          283.643,
+          348.866,
+          89.493
+        ]
+      },
+      "180": {
+        "ref": [
+          1021.189,
+          1185.004,
+          250.273
+        ],
+        "avx2": [
+          386.785,
+          520.265,
+          120.965
+        ]
+      },
+      "260": {
+        "ref": [
+          1426.175,
+          1522.873,
+          310.186
+        ],
+        "avx2": [
+          557.425,
+          645.78,
+          143.338
+        ]
+      }
+    },
+    "notes": "Default integer-exp ref and AVX2. Signature is fixed/padded; actual length = fixed length minus reserved rANS block size plus its encoded two-byte little-endian rANS length. Ratios use user-provided COPA calibration medians; QUICK ratios are format checks only. No expanded-key signing API is exposed. Timing uses the upstream native randombytes provider; fixed-seed correctness uses a bench-only deterministic byte provider. Calibration audit: extra ref auto-vectorization suppression has been removed. Historical COPA ratios are descriptive only, not 3% acceptance evidence. See PROTOCOL.md and the detailed COPA comparison in NOTES.md. The revised timer uses fresh KeyGen/Sign/Verify triples and discards 20 warmup triples. CALIBRATION=1 sets the same default BENCH_SEED as COPA; without BENCH_SEED the native OS provider is retained. Current source attribution compares original 81389d1, uninstrumented COPA-vendored 3c676bd, and the same vendored source with native BENCH_COUNT_ATTEMPTS, all through one driver. CALIBRATION is a backwards-compatible seeded-RNG/report-only option, never an acceptance gate.",
+    "calibration_status": "Report-only historical COPA ratios; no 3% gate, machine mismatch or ratio can fail the run.",
+    "calibration_environment": {
+      "cpu": "i7-10700K",
+      "gcc": "11.4.0",
+      "samples": 10001,
+      "warmup": 20,
+      "historical_message_bytes": 59,
+      "current_message_bytes": 32,
+      "seed": "copa-local-v3-fixed-corpus"
+    },
+    "source_attribution": true,
+    "timing_seed": "copa-local-v3-fixed-corpus"
+  },
+  "benchmark_hashes": {
+    ".gitignore": "68c8824892a82c4a572123a7baf73b9b687318782f39021fb10ead083095a2fe",
+    "NOTES.md": "e6071688ff7248f29fb06daa1d6346625920a124b069be49a840520d41455899",
+    "README.md": "c2d41c54c82d16a29d1d4056f5cd80c63115680ec71c1cbffc6bb596eca8031e",
+    "adapter.h": "f070d57d9448874f78321a7a331ded42e69cd4803a93a430bb71734fce2a0549",
+    "config.json": "e9f28d1dde392daa91ea18c956a27b22c2e21eee0c7252be6b8d901f70f6e248",
+    "cpucycles.c": "31cc4c16b1e896b2cf7cc154aa21430329c0047cf9898a1865f9bfe9904f25e4",
+    "cpucycles.h": "7f1e2b68cf3e3c76076364af3c5350de61442450c477aec809da8de10e131838",
+    "driver.c": "8cebc4c06f95038420197faeff9a41b5d7db8e74b0e251eb1a1aabb6a1f87c4e",
+    "rng.c": "d6b1746f0948354b9b1df37d1ea3b8e97ed366d16711f0ec06a99202f94d5fc3",
+    "run.py": "a9970e6a592ac4b4c637f847129bc34e38039a0f497b49149abba7b878e3af13",
+    "run.sh": "b4297fab34341f6ef53ef6daad6e6173b826476bc2bf92fb634427e2b9e385a2",
+    "speed_print.c": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3",
+    "speed_print.h": "3946b0226c63125664eb443a20d43563e6d1ba7fa3be5c1b952cd29d1477b2ef",
+    "source_text_audit.py": "c78a444ef67976f7d7daee4fb99b38362c81b544bfeb7f1057ae7110ff074a78",
+    "PROTOCOL.md": "a8213b1f2975a4e381fafe31e714478c33508cb272fb97deea240754999aa479",
+    "fma_audit.py": "90af0b7c726980e7130d3dd8515295ab787eb4e98667dc2fab22d28cc5318908"
+  }
+}
