@@ -1,0 +1,14 @@
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/120-ref/driver time 11
+META 256 57601 1056 1984 1187
+KeyGen
+median: 358123 cycles/ticks
+average: 415715 cycles/ticks
+
+Sign
+median: 447563 cycles/ticks
+average: 505663 cycles/ticks
+
+Verify
+median: 112631 cycles/ticks
+average: 182710 cycles/ticks
+

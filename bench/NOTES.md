@@ -176,3 +176,13 @@ mismatches prevent declaring it reproduced by inspection. Other repository
 changes (including VecFalcon and c-fn-dsa) are therefore deferred at this gate;
 no all-repository rerun is claimed complete. The local gate provides the next
 concrete measurement without changing COPA or any algorithm source.
+
+
+## FP contraction policy update (2026-11-10)
+
+The shared rule in PROTOCOL.md now requires -ffp-contract=off for all actual
+floating-point builds. The local c-fn-dsa index-3461 mismatch was traced to
+compiler contraction (15 FMA -> 0; equality restored), not a source defect.
+All runs now audit benchmark-owned objects and the linked driver with objdump
+and save *-fma-audit.json. Missing objdump fails preflight: apt install binutils.
+The measured default approx_exp path is integer; optional AVX2_EXP float kernels are not selected. fips202x4 double-pointer casts implement byte stores, not floating arithmetic. No contraction flag is needed for this workload; its flags and measured operations are preserved for calibration. All six builds must audit to zero FMA. ML-DSA and SHUTTLE are integer; HAETAE clean/official use fixed-point FFT. These unaffected repositories are left unchanged.

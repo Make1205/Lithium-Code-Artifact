@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv,datetime,hashlib,io,json,os,platform,re,shutil,subprocess,sys,tarfile
 from pathlib import Path
+import fma_audit
 ROOT=Path(__file__).resolve().parent.parent
 BENCH=ROOT/'bench'
 CFG=json.loads((BENCH/'config.json').read_text())
@@ -29,6 +30,7 @@ def archive(commit,path):
  shutil.copytree(BENCH,path/'bench',ignore=shutil.ignore_patterns('results','__pycache__'),dirs_exist_ok=True)
 
 def main():
+ fma_audit.preflight()
  if sys.version_info<(3,8):raise RuntimeError('Python >=3.8 required: apt install python3')
  if platform.machine()!='x86_64':raise RuntimeError('RDTSC/AVX2 benchmark requires x86-64')
  if not Path(CC).is_file():raise RuntimeError('Missing GCC: apt install build-essential')
@@ -67,6 +69,7 @@ def main():
    for name in ('cpucycles','speed_print'):
     obj=dest/(name+'.o');call([CC]+BASE+['-c',str(stage/'bench'/(name+'.c')),'-o',obj],folder,log);timers.append(obj)
    call([CC,str(dest/'driver.o')]+objs+extra+timers+variant.get('libs',[])+['-o',driver],folder,log)
+   fma_audit.audit(driver,[dest/'driver.o']+objs+extra+timers,out/(key+'-fma-audit.json'))
    for kat in variant.get('kat',[]):
     if 'command' in kat:
      text=call(kat['command'],folder,out/'kat.log')
@@ -151,6 +154,7 @@ def main():
   calibration_failed=verdict=='FAIL'
   (out/'calibration.json').write_text(json.dumps(dict(status=verdict,machine_matches=machine_ok,environment=env,measurements=deltas),indent=2)+'\n')
   s+='Calibration gate: **'+verdict+'**. Machine matches reference: '+str(machine_ok)+'. Historical COPA messages are 59 bytes; this run follows the required 32-byte protocol.\n\n'
+ s+='\nFMA audit: selected integer/fixed-point paths; zero FMA instructions in all benchmark-owned objects and linked drivers. See *-fma-audit.json.\n'
  s+=CFG.get('notes','')+'\n\nBuild flags and commands per variant are in config.json, metadata.json and build logs. All source is extracted locally from the tested commit; algorithm files are unchanged. See bench/NOTES.md.\n'
  (out/'SUMMARY.md').write_text(s)
  if calibration_failed:

@@ -1,0 +1,142 @@
+{
+  "status": "NOT_VALIDATED_QUICK",
+  "machine_matches": false,
+  "environment": {
+    "cpu": "i7-10700K",
+    "gcc": "11.4.0",
+    "samples": 10001,
+    "warmup": 20,
+    "historical_message_bytes": 59,
+    "current_message_bytes": 32,
+    "seed": "copa-local-v3-fixed-corpus",
+    "tolerance": 0.03
+  },
+  "measurements": [
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.48933332786779965,
+      "within_3_percent": false
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.5994297178858042,
+      "within_3_percent": false
+    },
+    {
+      "set": "120",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.6615196668644023,
+      "within_3_percent": false
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.4675772009180555,
+      "within_3_percent": false
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.5725149484329227,
+      "within_3_percent": false
+    },
+    {
+      "set": "120",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.5621556993284391,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.8383120068860908,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.6057641999520677,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.6955164959863829,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.6953294465917758,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.5948949093250555,
+      "within_3_percent": false
+    },
+    {
+      "set": "180",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.6331996858595461,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "KeyGen",
+      "ratio": 0.5752835381352219,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Sign",
+      "ratio": 0.5701860890566711,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "ref",
+      "operation": "Verify",
+      "ratio": 0.735104098831024,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "KeyGen",
+      "ratio": 0.49851908328474687,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Sign",
+      "ratio": 0.6186549598934622,
+      "within_3_percent": false
+    },
+    {
+      "set": "260",
+      "build": "avx2",
+      "operation": "Verify",
+      "ratio": 0.6622458803666857,
+      "within_3_percent": false
+    }
+  ]
+}

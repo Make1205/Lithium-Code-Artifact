@@ -1,0 +1,12 @@
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/120-ref/kat
+PASS test_kat mode=120 N=10 accept=10 reject=10 KAT_hash=16043336652881898616 (pk=1056 sk=1984 sig=1187)
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/120-avx2/kat
+PASS test_kat mode=120 N=10 accept=10 reject=10 KAT_hash=16043336652881898616 (pk=1056 sk=1984 sig=1187)
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/180-ref/kat
+PASS test_kat mode=180 N=10 accept=10 reject=10 KAT_hash=12054898970128143599 (pk=1472 sk=2720 sig=1618)
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/180-avx2/kat
+PASS test_kat mode=180 N=10 accept=10 reject=10 KAT_hash=12054898970128143599 (pk=1472 sk=2720 sig=1618)
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/260-ref/kat
+PASS test_kat mode=260 N=10 accept=10 reject=10 KAT_hash=14183906608478196884 (pk=2080 sk=3808 sig=2348)
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T105518.182617Z/work/260-avx2/kat
+PASS test_kat mode=260 N=10 accept=10 reject=10 KAT_hash=14183906608478196884 (pk=2080 sk=3808 sig=2348)

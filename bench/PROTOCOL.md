@@ -1,8 +1,8 @@
 # Shared byte-key benchmark rule (2026-11-10 revision)
 
-This is the requested common rule for every scheme bench. Rollout beyond LITHIUM
-is paused at the user's calibration gate until the reference workload is resolved.
-The existing results from other repositories are not relabeled as following it.
+This is the common benchmark rule. The user has authorized its rollout and
+the FP-contraction amendment below. LITHIUM's separate local 3% calibration
+gate remains required; a cloud QUICK run cannot certify that numerical gate.
 
 1. Use system GCC with -O3 -march=native plus options actually needed by the
    repository backend, its headers/ABI and build. For LITHIUM use -std=c99,
@@ -36,3 +36,29 @@ Current blocker: COPA 3c676bd does not use this workload verbatim: it uses a
 serialized RDTSCP, benchmark source instrumentation and a modified AVX2 SHAKE.
 See NOTES.md. The first three requested rules are now applied to LITHIUM; other
 sampling/timer differences remain explicit pending a comparable calibration target.
+
+
+## Floating-point contraction rule (2026-11-10)
+
+All builds that execute floating-point arithmetic, ref and AVX2 alike, must add
+`-ffp-contract=off` to system GCC `-O3 -march=native` and required backend options.
+This prevents compiler-generated fused multiply/add and preserves separate
+binary64 rounding. It does not disable or rewrite explicit upstream FMA
+intrinsics. Those are retained, named and counted separately; never remove
+algorithm intrinsics just to obtain a zero count. FALCON_FMA is not changed by
+this compiler policy. Integer-only paths do not need a contraction flag.
+
+Every run checks benchmark-owned object files and the linked driver with
+objdump (apt package binutils), saves per-build fma-audit JSON and reports counts
+in SUMMARY. Expected count is zero unless a named original source object uses
+explicit FMA intrinsics. Shared-library internals are outside this audit. Any
+unexplained FMA causes the run to fail before timing. HAWK KeyGen/Sign are
+integer/fixed-point, and LITHIUM's selected default exp path is integer; neither
+is silently changed into another algorithm variant by this policy.
+
+The local c-fn-dsa case 3462 (zero-based index 3461) established FP contraction
+as the reason for the old mismatch, not an implementation defect: both signatures
+cross-verified; disabling contraction removed 15 compiler-generated FMA
+instructions and restored equality with ref for that case. c-fn-dsa now requires
+ref/AVX2 byte equality and also retains all cross-verification checks. c-fn-dsa
+is the paper's primary Falcon-family measurement; VecFalcon is the backup.

@@ -1,0 +1,20 @@
+[
+  {
+    "set": "120",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true
+  },
+  {
+    "set": "180",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true
+  },
+  {
+    "set": "260",
+    "count_each": 100,
+    "cross_builds": true,
+    "byte_equal": true
+  }
+]
