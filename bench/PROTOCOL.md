@@ -1,8 +1,8 @@
 # Shared byte-key benchmark rule (2026-11-10 revision)
 
 This is the common benchmark rule. The user has authorized its rollout and
-the FP-contraction amendment below. LITHIUM's separate local 3% calibration
-gate remains required; a cloud QUICK run cannot certify that numerical gate.
+the FP-contraction amendment below. Historical COPA comparisons are now
+report-only: there is no 3% acceptance gate, in QUICK or FULL.
 
 1. Use system GCC with -O3 -march=native plus options actually needed by the
    repository backend, its headers/ABI and build. For LITHIUM use -std=c99,

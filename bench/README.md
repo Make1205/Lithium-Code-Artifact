@@ -23,3 +23,12 @@ and the first SUMMARY heading. Compare FULL numbers only on the same local CPU.
 
 See NOTES.md for format, length extraction, native RNG, revision selection,
 compilation configuration and any paper-size discrepancy.
+
+Current update: all historical COPA ratios are REPORT_ONLY; CALIBRATION never
+rejects a run and the former 3% gate is removed. Timing defaults to the fixed
+recorded BENCH_SEED for paired source attribution. Each parameter now compares
+upstream 81389d1 and verbatim COPA-vendored 3c676bd with native instrumentation
+off/on, in both backends. SUMMARY and attribution.json separate code and
+driver/protocol factors. The vendor is bundled and hash-checked; no COPA
+checkout/network is needed by run.sh. Genuine KAT/correctness/build errors
+still return nonzero. Only QUICK is run in cloud.
