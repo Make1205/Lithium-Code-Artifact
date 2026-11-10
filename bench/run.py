@@ -32,6 +32,10 @@ def main():
  if platform.machine()!='x86_64':raise RuntimeError('RDTSC/AVX2 benchmark requires x86-64')
  if not Path(CC).is_file():raise RuntimeError('Missing GCC: apt install build-essential')
  if not shutil.which('git'):raise RuntimeError('Missing Git: apt install git')
+ probe=Path('/tmp')/('bench-toolchain-'+str(os.getpid()))
+ cp=subprocess.run([CC,'-x','c','-','-o',str(probe),'-lm'],input=b'#include <stdint.h>\n#include <stddef.h>\n#include <stdio.h>\n#include <stdlib.h>\nint main(void){void *p=malloc(8);free(p);return 0;}\n',env=ENV,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+ if cp.returncode:raise RuntimeError('System C toolchain/headers/libm missing: apt install build-essential (includes libc6-dev)\n'+cp.stderr.decode())
+ probe.unlink()
  for dep in CFG.get('dependencies',[]):
   p=subprocess.run([CC,'-x','c','-','-o','/tmp/bench-dep-'+str(os.getpid())]+dep['libs'],input=dep['source'].encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=ENV)
   if p.returncode:raise RuntimeError('Missing dependency: '+dep['package']+'; apt install '+dep['package']+'\n'+p.stderr.decode())
@@ -107,6 +111,11 @@ def main():
  s+='QUICK is a workflow check only. Full-scale figures are measured locally.\n\n' if quick else 'Full-scale local benchmark.\n\n'
  s+='CPU: '+meta['cpu']+'; affinity: '+str(cpu)+'. GCC: '+meta['gcc']+'.\n\nTested commit: `'+CFG['tested_commit']+'`. Benchmark commit: `'+meta['benchmark_commit']+'`.\n\n'
  s+='Base flags: `'+ ' '.join(BASE)+'`. Each operation: '+str(nt)+' iterations; correctness and lengths: '+str(ns)+' signatures per build/set. Message: 32 bytes. Median units: thousand RDTSC ticks.\n\n'
+ s+='Exact per-build options (in addition to base flags and local include paths):\n\n'
+ for rr in CFG['sets']:
+  for vv in rr['variants']:
+   s+='* '+rr['name']+' '+vv['name']+': `'+ ' '.join(vv.get('flags',[]))+'`; link `'+ ' '.join(vv.get('libs',[]))+'`.\n'
+ s+='\n'
  s+='| 参数集 | n | q | pk | sig（仓库实际） | 论文 sig | ref KeyGen/Sign/Verify | AVX2 KeyGen/Sign/Verify |'
  if CFG.get('calibration'):s+=' ratio to previous ref / AVX2 |'
  s+='\n|---|---:|---:|---:|---|---:|---|---|'+('---|' if CFG.get('calibration') else '')+'\n'

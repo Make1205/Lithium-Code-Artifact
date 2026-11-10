@@ -87,3 +87,9 @@ from the two-byte rANS length within the signature. It removes only unused
 reserved bytes in that internal block, preserving the encoded tail after it.
 Calibration ratios are current median / user-provided median; QUICK ratios
 are printed solely to validate the format, not to validate machine performance.
+
+Before any algorithm build, the runner also compile/links a standard C
+header/runtime/libm probe. Failure reports apt package build-essential
+(including libc6-dev). Exact extra per-build flags are printed near the
+SUMMARY heading as well as retained in metadata and logs. This final
+preflight/report change leaves the measured driver and QUICK values unchanged.

@@ -433,5 +433,7 @@
     ".gitignore": "68c8824892a82c4a572123a7baf73b9b687318782f39021fb10ead083095a2fe",
     "cpucycles.h": "7f1e2b68cf3e3c76076364af3c5350de61442450c477aec809da8de10e131838",
     "run.sh": "b4297fab34341f6ef53ef6daad6e6173b826476bc2bf92fb634427e2b9e385a2"
-  }
+  },
+  "report_update": "Added explicit per-build flags and system-toolchain preflight after the recorded QUICK run; timing driver and measured values unchanged.",
+  "current_report_runner_sha256": "e3360dc98c6085ac340c1ff27b7636776fcb847ccf43cfdf1c1172434d82cd99"
 }

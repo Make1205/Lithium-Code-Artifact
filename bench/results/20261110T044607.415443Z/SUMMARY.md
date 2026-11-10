@@ -8,6 +8,15 @@ Tested commit: `81389d1971ef64f6469167ab10855e3594ea7729`. Benchmark commit: `81
 
 Base flags: `-O3 -march=native -std=gnu11`. Each operation: 11 iterations; correctness and lengths: 100 signatures per build/set. Message: 32 bytes. Median units: thousand RDTSC ticks.
 
+Exact per-build options (in addition to base flags and local include paths):
+
+* 120 ref: `-DLITHIUM_MODE=120 -fno-tree-vectorize -fno-tree-slp-vectorize -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+* 120 avx2: `-DLITHIUM_MODE=120 -mavx2 -mbmi2 -mpopcnt -mno-avx512f -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+* 180 ref: `-DLITHIUM_MODE=180 -fno-tree-vectorize -fno-tree-slp-vectorize -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+* 180 avx2: `-DLITHIUM_MODE=180 -mavx2 -mbmi2 -mpopcnt -mno-avx512f -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+* 260 ref: `-DLITHIUM_MODE=260 -fno-tree-vectorize -fno-tree-slp-vectorize -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+* 260 avx2: `-DLITHIUM_MODE=260 -mavx2 -mbmi2 -mpopcnt -mno-avx512f -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X -Itest -I../ref -I../ref/test -include config.h`; link `-lm`.
+
 | 参数集 | n | q | pk | sig（仓库实际） | 论文 sig | ref KeyGen/Sign/Verify | AVX2 KeyGen/Sign/Verify | ratio to previous ref / AVX2 |
 |---|---:|---:|---:|---|---:|---|---|---|
 | 120 | 256 | 57601 | 1056 | 1187; unpadded avg 1100.1600, max 1112 | 1187 | 610.271/448.213/80.261 | 105.897/158.469/32.187 | 0.834/0.600/0.472 ; 0.373/0.454/0.362 |
