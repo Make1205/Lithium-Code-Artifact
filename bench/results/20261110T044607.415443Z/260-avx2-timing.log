@@ -1,0 +1,14 @@
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-avx2/driver time 11
+META 512 64513 2080 3808 2348
+KeyGen
+median: 222221 cycles/ticks
+average: 346954 cycles/ticks
+
+Sign
+median: 314209 cycles/ticks
+average: 314322 cycles/ticks
+
+Verify
+median: 58473 cycles/ticks
+average: 61342 cycles/ticks
+

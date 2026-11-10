@@ -1,0 +1,42 @@
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-ref/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-ref.vectors
+META 256 57601 1056 1984 1187
+LENGTH 110016 100 1090 1112
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-avx2/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-avx2.vectors
+META 256 57601 1056 1984 1187
+LENGTH 110016 100 1090 1112
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-ref/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-avx2.vectors
+META 256 57601 1056 1984 1187
+PASS cross 100
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-avx2/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/120-ref.vectors
+META 256 57601 1056 1984 1187
+PASS cross 100
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-ref/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-ref.vectors
+META 256 30977 1472 2720 1618
+LENGTH 152360 100 1507 1535
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-avx2/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-avx2.vectors
+META 256 30977 1472 2720 1618
+LENGTH 152360 100 1507 1535
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-ref/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-avx2.vectors
+META 256 30977 1472 2720 1618
+PASS cross 100
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-avx2/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/180-ref.vectors
+META 256 30977 1472 2720 1618
+PASS cross 100
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-ref/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-ref.vectors
+META 512 64513 2080 3808 2348
+LENGTH 224256 100 2231 2258
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-avx2/driver generate 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-avx2.vectors
+META 512 64513 2080 3808 2348
+LENGTH 224256 100 2231 2258
+PASS generate
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-ref/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-avx2.vectors
+META 512 64513 2080 3808 2348
+PASS cross 100
+$ /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-avx2/driver check 100 /workspace/Lithium-Code-Artifact/bench/results/20261110T044607.415443Z/work/260-ref.vectors
+META 512 64513 2080 3808 2348
+PASS cross 100
