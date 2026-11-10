@@ -274,3 +274,14 @@ backend: changed code generation and run noise both remain relevant. The
 negative evidence above is specifically about explaining the large reported
 AVX2 Sign/Verify gap; the full per-set source table is retained rather than
 selecting only ratios near one.
+
+A second full QUICK workflow at results/20261110T113849.763409Z is retained
+as well. Its AVX2 vendor/upstream Sign ratios were 0.983/0.797/0.997 and
+Verify 1.005/0.968/0.987. In particular the 180 Sign median varied markedly
+between the two smoke runs. The first run's near-one ratios must therefore
+not be selected as a quantitative local attribution. The final interpretation
+is limited to the verified executable-section differences and the controlled
+experiment design: cloud QUICK does not determine the numerical i7/GCC11
+code-versus-driver split. The FULL local source/protocol factor tables supply
+that split without a tolerance gate. Neither a universal code-cost conclusion
+nor a universal driver-cost conclusion is asserted from these smoke timings.
