@@ -261,3 +261,16 @@ remaining driver/protocol/run-state effect, without a percentage pass/fail rule.
 The same driver has optional expanded-key support behind B_EXPANDED; that branch
 is inactive for all LITHIUM variants and exists only to share the exact driver
 with the new COPA benchmark. No expanded LITHIUM operation is invented.
+
+The shared runner additionally accepts a per-variant explicit-FMA source-object
+allowance for Copa's original C99 fma()/SIMD intrinsics. LITHIUM config grants
+no such allowance, so its zero-FMA requirement is unchanged. The scalar
+fma() operation, like an explicit intrinsic, is intentionally fused and is not
+removed by -ffp-contract=off. The same runner/driver files are used in Copa.
+
+The first QUICK also had a ref-180 instrumented/vendor Sign ratio of 1.081.
+We therefore do not claim that native instrumentation has no cost in every
+backend: changed code generation and run noise both remain relevant. The
+negative evidence above is specifically about explaining the large reported
+AVX2 Sign/Verify gap; the full per-set source table is retained rather than
+selecting only ratios near one.

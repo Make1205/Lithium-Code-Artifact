@@ -79,7 +79,7 @@ def main():
    for name in ('cpucycles','speed_print'):
     obj=dest/(name+'.o');call([CC]+BASE+['-c',str(stage/'bench'/(name+'.c')),'-o',obj],folder,log);timers.append(obj)
    call([CC,str(dest/'driver.o')]+objs+extra+timers+variant.get('libs',[])+['-o',driver],folder,log)
-   fma_audit.audit(driver,[dest/'driver.o']+objs+extra+timers,out/(key+'-fma-audit.json'))
+   fma_audit.audit(driver,[dest/'driver.o']+objs+extra+timers,out/(key+'-fma-audit.json'),explicit_objects=variant.get('explicit_fma_objects',[]))
    for kat in variant.get('kat',[]):
     if 'command' in kat:
      text=call(kat['command'],folder,out/'kat.log')
@@ -192,7 +192,7 @@ def main():
   comparable=(not quick and reference['cpu'] in meta['cpu'] and reference['gcc'] in meta['gcc'] and cpu==0 and ENV.get('BENCH_SEED')==reference['seed'])
   (out/'attribution.json').write_text(json.dumps(dict(local_environment_comparable=comparable,formula='overall_factor = driver_protocol_factor / code_factor',measurements=decomposition),indent=2)+'\n')
   s+='\nDecomposition: overall = driver/protocol factor divided by code factor. Historical messages were 59 bytes; the message change is part of the driver/protocol factor. Comparable FULL local environment: '+str(comparable)+'. This label is informational and never a pass/fail gate.\n'
- s+='\nFMA audit: selected integer/fixed-point paths; zero FMA instructions in all benchmark-owned objects and linked drivers. See *-fma-audit.json.\n'
+ s+='\nFMA audit: '+CFG.get('fma_note','selected integer/fixed-point paths; zero FMA instructions in all benchmark-owned objects and linked drivers.')+' See *-fma-audit.json.\n'
  s+=CFG.get('notes','')+'\n\nBuild flags and commands per variant are in config.json, metadata.json and build logs. Algorithm sources use the pinned tested commit and, when configured, the verified vendored snapshot. Algorithm source text is unchanged. See bench/NOTES.md.\n'
  (out/'SUMMARY.md').write_text(s)
  print('PASS (historical ratios are report-only):',out/'SUMMARY.md',flush=True)
