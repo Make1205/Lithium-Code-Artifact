@@ -1,0 +1,28 @@
+scripts/local_check.py @ 3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac
+39:             try:os.sched_setaffinity(0,{self.cpu})
+41:         try:self.samples=int(os.environ.get('SAMPLES','10001'));assert self.samples>=101
+42:         except (ValueError,AssertionError):self.samples=10001;self.note('configuration','FAIL','SAMPLES must be an integer >=101; using 10001 to continue')
+43:         self.env.setdefault('BENCH_SEED','copa-local-v3-fixed-corpus')
+44:         self.flags='-O3 -march=native -std=c99 -Wall -Wextra -I. -Itest'
+
+ref/test/copa_perf.c @ 3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac
+24: static uint64_t ticks(void){unsigned aux;_mm_lfence();uint64_t t=__rdtscp(&aux);_mm_lfence();return t;}
+27:  unsigned n=argc>1?(unsigned)strtoul(argv[1],NULL,10):1001,warm=20;assert(n>=101);
+29:  uint8_t msg[59]={0};uint64_t actual_iteration_cycles=0;uint64_t attempts=0,steps=0,sign_cycles=0,keygen_attempts=0,verify_cycles=0,cached_sign_cycles=0,cached_verify_cycles=0,cached_attempts=0;
+37:   assert(!crypto_sign_keypair(pk,sk));uint64_t a=ticks()-start;
+39:   start=ticks();assert(!crypto_sign_signature(sig,&len,msg,sizeof(msg),sk));uint64_t b=ticks()-start;uint64_t actual_it=lithium_bench_iteration_cycles-iteration_before;
+40:   start=ticks();assert(!crypto_sign_verify(sig,len,msg,sizeof(msg),pk));uint64_t c=ticks()-start;
+55:   assert(!crypto_sign_expand_sk(&sk,skbytes));
+56:   assert(!crypto_sign_expand_pk(&public_key,pk));
+60:   start=ticks();assert(!crypto_sign_signature_expanded(sig,&len,msg,sizeof(msg),&sk));uint64_t cs=ticks()-start;
+61:   start=ticks();assert(!crypto_sign_verify_expanded(sig,sizeof(sig),msg,sizeof(msg),&public_key));uint64_t cv=ticks()-start;
+71:  qsort(cached_sg,n,8,cmp);qsort(cached_vf,n,8,cmp);qsort(kg,n,sizeof(*kg),cmp);qsort(sg,n,sizeof(*sg),cmp);qsort(vf,n,sizeof(*vf),cmp);unsigned p99=(99*n+99)/100-1;
+
+common/copa-benchmark.mk @ 3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac
+2: COPA_LITH_SOURCES = ntt.c reduce.c polyvec.c rounding.c sampler.c approx_exp.c irs.c packing.c irs_rans.c sign.c symmetric-shake.c fips202.c randombytes.c
+4: COPA_LITH_FLAGS = -mavx2 -mno-avx512f -mbmi2 -mpopcnt -DUSE_AVX2_NTT -DUSE_AVX2_SAMPLER -DUSE_AVX2_SHAKE4X
+8: COPA_LITH_FLAGS = -mavx512f -mavx512bw -mavx512dq -mavx512vl -mavx512ifma -mavx512vbmi -mavx512vbmi2 -mbmi2 -mpopcnt -DUSE_AVX512_NTT -DUSE_AVX512_SAMPLER -DUSE_AVX512_SHAKE8X
+17: 	 $(CC) $(COPA_CFLAGS) $(COPA_LITH_FLAGS) -I. -I../ref -I../ref/test -DBENCH_LITHIUM -DBENCH_COUNT_ATTEMPTS -DLITHIUM_MODE=$$mode -Wl,--wrap=randombytes ../ref/test/copa_perf.c $(COPA_LITH_SOURCES) $(COPA_KECCAK) $$qs/$(COPA_LITH_ASM) $$qs/$(COPA_LITH_CONSTS) -lm -o $(COPA_OUT)/lithium_perf_$$mode; done
+24: 	@set -e; for mode in $(MODES); do case $$mode in 120) qs=$(QSET_120);; 180) qs=$(QSET_180);; 260) qs=$(QSET_260);; esac; $(CC) $(COPA_CFLAGS) $(COPA_LITH_FLAGS) -pg -fno-inline -I. -I../ref -I../ref/test -DBENCH_LITHIUM -DLITHIUM_MODE=$$mode ../common/copa_gprof.c $(COPA_LITH_SOURCES) $(COPA_KECCAK) $$qs/$(COPA_LITH_ASM) $$qs/$(COPA_LITH_CONSTS) -lm -o $(COPA_OUT)/lithium_gprof_$$mode; done
+28: 	@set -e; for mode in $(MODES); do case $$mode in 120) qs=$(QSET_120);; 180) qs=$(QSET_180);; 260) qs=$(QSET_260);; esac; $(CC) $(COPA_CFLAGS) $(COPA_LITH_FLAGS) -DPROF_TIME -I. -I../ref -I../ref/test -DLITHIUM_MODE=$$mode ../common/lithium_profile_v2.c ../ref/test/prof.c $(COPA_LITH_SOURCES) $(COPA_KECCAK) $$qs/$(COPA_LITH_ASM) $$qs/$(COPA_LITH_CONSTS) -lm -o $(COPA_OUT)/lithium_profile_$$mode; done
+33: 	@set -e; for mode in $(MODES); do case $$mode in 120) qs=$(QSET_120);; 180) qs=$(QSET_180);; 260) qs=$(QSET_260);; esac; $(CC) $(COPA_CFLAGS) $(COPA_LITH_FLAGS) -I. -DBENCH_LITHIUM -DLITHIUM_MODE=$$mode ../common/copa_ntt_perf.c ntt.c reduce.c $$qs/$(COPA_LITH_ASM) $$qs/$(COPA_LITH_CONSTS) -o $(COPA_OUT)/lithium_ntt_$$mode; done

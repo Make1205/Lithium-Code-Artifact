@@ -15,8 +15,6 @@
           "cwd": "ref",
           "flags": [
             "-DLITHIUM_MODE=120",
-            "-fno-tree-vectorize",
-            "-fno-tree-slp-vectorize",
             "-Itest",
             "-I../ref",
             "-I../ref/test",
@@ -135,8 +133,6 @@
           "cwd": "ref",
           "flags": [
             "-DLITHIUM_MODE=180",
-            "-fno-tree-vectorize",
-            "-fno-tree-slp-vectorize",
             "-Itest",
             "-I../ref",
             "-I../ref/test",
@@ -255,8 +251,6 @@
           "cwd": "ref",
           "flags": [
             "-DLITHIUM_MODE=260",
-            "-fno-tree-vectorize",
-            "-fno-tree-slp-vectorize",
             "-Itest",
             "-I../ref",
             "-I../ref/test",
@@ -368,40 +362,51 @@
   "calibration": {
     "120": {
       "ref": [
-        732,
-        747,
-        170
+        731.859,
+        746.648,
+        170.261
       ],
       "avx2": [
-        284,
-        349,
-        89
+        283.643,
+        348.866,
+        89.493
       ]
     },
     "180": {
       "ref": [
-        1021,
-        1185,
-        250
+        1021.189,
+        1185.004,
+        250.273
       ],
       "avx2": [
-        387,
-        520,
-        121
+        386.785,
+        520.265,
+        120.965
       ]
     },
     "260": {
       "ref": [
-        1426,
-        1523,
-        310
+        1426.175,
+        1522.873,
+        310.186
       ],
       "avx2": [
-        557,
-        646,
-        143
+        557.425,
+        645.78,
+        143.338
       ]
     }
   },
-  "notes": "Default integer-exp ref and AVX2. Signature is fixed/padded; actual length = fixed length minus reserved rANS block size plus its encoded two-byte little-endian rANS length. Ratios use user-provided COPA calibration medians; QUICK ratios are format checks only. No expanded-key signing API is exposed. Timing uses the upstream native randombytes provider; fixed-seed correctness uses a bench-only deterministic byte provider."
+  "notes": "Default integer-exp ref and AVX2. Signature is fixed/padded; actual length = fixed length minus reserved rANS block size plus its encoded two-byte little-endian rANS length. Ratios use user-provided COPA calibration medians; QUICK ratios are format checks only. No expanded-key signing API is exposed. Timing uses the upstream native randombytes provider; fixed-seed correctness uses a bench-only deterministic byte provider. Calibration audit: extra ref auto-vectorization suppression has been removed. Historical COPA ratios are descriptive only, not 3% acceptance evidence. See PROTOCOL.md and the detailed COPA comparison in NOTES.md. The revised timer uses fresh KeyGen/Sign/Verify triples and discards 20 warmup triples. CALIBRATION=1 sets the same default BENCH_SEED as COPA; without BENCH_SEED the native OS provider is retained.",
+  "calibration_status": "QUICK is not numerical validation. CALIBRATION=1 FULL checks the supplied historical medians within 3% on the stated CPU/GCC and stops on failure; source/message/timer differences remain disclosed.",
+  "calibration_environment": {
+    "cpu": "i7-10700K",
+    "gcc": "11.4.0",
+    "samples": 10001,
+    "warmup": 20,
+    "historical_message_bytes": 59,
+    "current_message_bytes": 32,
+    "seed": "copa-local-v3-fixed-corpus",
+    "tolerance": 0.03
+  }
 }

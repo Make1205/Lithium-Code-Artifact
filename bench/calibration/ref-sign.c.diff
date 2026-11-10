@@ -1,0 +1,42 @@
+--- Lithium-81389d1/ref/sign.c
++++ COPA-3c676bd/ref/sign.c
+@@ -29,6 +29,12 @@
+ #include "reduce.h"
+ #include "rounding.h"
+ #include "sampler.h"
++
++#ifdef BENCH_COUNT_ATTEMPTS
++uint64_t lithium_bench_sign_attempts;
++uint64_t lithium_bench_iteration_cycles;
++#include "../common/copa_bench_ticks.h"
++#endif
+ 
+ #ifdef TEST_RANS_STATS
+ uint64_t lithium_test_rans_pack_calls = 0;
+@@ -249,7 +255,13 @@
+      * (avx2/avx512 keep the import: it does the nttunpack permutation.) */
+     PROF_STOP(PT_EXPAND_A0, t_a0);
+ 
+-    for (unsigned attempt = 0;; attempt++) {
++#ifdef BENCH_COUNT_ATTEMPTS
++     uint64_t iteration_start=copa_bench_ticks();
++ #endif
++     for (unsigned attempt = 0;; attempt++) {
++#ifdef BENCH_COUNT_ATTEMPTS
++        ++lithium_bench_sign_attempts;
++#endif
+         poly z[K], w[M];
+         /* y is only read before sign_irs mutates z.  Make y a readability
+          * alias for z, sample directly into z, and avoid one full
+@@ -352,7 +364,10 @@
+             continue; /* rANS overflow: near-2^-100 retry by parameters */
+         }
+         *siglen = CRYPTO_BYTES;
+-        return 0;
++ #ifdef BENCH_COUNT_ATTEMPTS
++         lithium_bench_iteration_cycles+=copa_bench_ticks()-iteration_start;
++ #endif
++         return 0;
+     }
+ }
+ 

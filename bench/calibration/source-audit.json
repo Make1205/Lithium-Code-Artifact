@@ -1,0 +1,20 @@
+{
+  "copa_commit": "3c676bd2acba2d1d8d2f9f564f097f0e5c4588ac",
+  "copa_working_checkout_head": "4fbf59d478d8acc3217331aead6b9f4a76291084",
+  "lithium_tested_commit": "81389d1971ef64f6469167ab10855e3594ea7729",
+  "reference_seed_default": "copa-local-v3-fixed-corpus",
+  "reference_message_bytes": 59,
+  "unified_message_bytes": 32,
+  "sources": {
+    "scripts/local_check.py": "766e5dc19e8dafbd2e0713edd74ba444415ab7b07710468792034302a9a16c05",
+    "common/copa-benchmark.mk": "43574ed208a089e9ab231843bd5754e77fc01fdcfad1b2c1d137e8941783c325",
+    "common/copa-backend.mk": "6892f93feed70e8e6618329b1d310a9498f71ab344f14529bb4ca3a28c61d0f9",
+    "common/copa_bench_ticks.h": "916c07afbebe896ee4d2e766a42404c397cf3b71fc91f6221d7ef5060e76ae46",
+    "ref/test/copa_perf.c": "dd7f16c0297eec47ef73b9aa640ac5fffee19a748a185b8682be1bbb2b4c94f6",
+    "ref/Makefile": "0d98b524c166cd9929892763015655952b5a1a23515485dc5d3106a014d5733d",
+    "avx2/Makefile": "36ade595bf75c8ca980420c198c4722ec437e1c16a65544e7539208fbe6daa38",
+    "ref/sign.c": "452b11f1c34c0303e8902b3d0113f622e3e1725ede27069378678770088e1f49",
+    "avx2/sign.c": "8027697a22b2cbc78171f79752d923e937391c9d92ce069bba2b83fdde6277d2",
+    "avx2/fips202x4.c": "6786911e551533f68ddb3c563959d0d3a985fef06b7b1ea2853ef3f494c9a306"
+  }
+}

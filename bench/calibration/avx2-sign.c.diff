@@ -1,0 +1,42 @@
+--- Lithium-81389d1/avx2/sign.c
++++ COPA-3c676bd/avx2/sign.c
+@@ -51,6 +51,12 @@
+     return _mm256_sub_epi32(
+         b, _mm256_and_si256(ge, _mm256_set1_epi32(W1_MAX)));
+ }
++#endif
++
++#ifdef BENCH_COUNT_ATTEMPTS
++uint64_t lithium_bench_sign_attempts;
++uint64_t lithium_bench_iteration_cycles;
++#include "../common/copa_bench_ticks.h"
+ #endif
+ 
+ #ifdef TEST_RANS_STATS
+@@ -272,7 +278,13 @@
+                         &bn[i]); /* import canonical bn to native bh */
+     PROF_STOP(PT_EXPAND_A0, t_a0);
+ 
+-    for (unsigned attempt = 0;; attempt++) {
++#ifdef BENCH_COUNT_ATTEMPTS
++     uint64_t iteration_start=copa_bench_ticks();
++ #endif
++     for (unsigned attempt = 0;; attempt++) {
++#ifdef BENCH_COUNT_ATTEMPTS
++        ++lithium_bench_sign_attempts;
++#endif
+         poly z[K], w[M];
+         /* y is only read before sign_irs mutates z.  Make y a readability
+          * alias for z, sample directly into z, and avoid one full
+@@ -421,7 +433,10 @@
+             continue; /* rANS overflow: near-2^-100 retry by parameters */
+         }
+         *siglen = CRYPTO_BYTES;
+-        return 0;
++ #ifdef BENCH_COUNT_ATTEMPTS
++         lithium_bench_iteration_cycles+=copa_bench_ticks()-iteration_start;
++ #endif
++         return 0;
+     }
+ }
+ 

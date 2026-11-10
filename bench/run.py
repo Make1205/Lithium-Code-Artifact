@@ -7,7 +7,8 @@ CFG=json.loads((BENCH/'config.json').read_text())
 ENV=dict(os.environ,LANG='C',LC_ALL='C',GIT_TERMINAL_PROMPT='0')
 for k in ('CPATH','C_INCLUDE_PATH','CPLUS_INCLUDE_PATH','LIBRARY_PATH','LD_LIBRARY_PATH','GCC_EXEC_PREFIX','COMPILER_PATH'):ENV.pop(k,None)
 CC='/usr/bin/gcc'
-BASE=['-O3','-march=native','-std=gnu11']
+if os.environ.get('CALIBRATION')=='1':ENV.setdefault('BENCH_SEED','copa-local-v3-fixed-corpus')
+BASE=['-O3','-march=native','-std=c99']
 def call(args,cwd=ROOT,log=None):
  p=subprocess.run([str(x) for x in args],cwd=cwd,env=ENV,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
  s=p.stdout.decode(errors='replace')
@@ -45,7 +46,7 @@ def main():
  else:cpu=None
  stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ');out=BENCH/'results'/stamp;out.mkdir(parents=True)
  print('Results:',out,flush=True)
- meta={'scale':'QUICK' if quick else 'FULL','timing_iterations':nt,'signatures':ns,'cpu':platform.processor(),'affinity':cpu,'gcc':call([CC,'--version']).splitlines()[0],'benchmark_commit':call(['git','rev-parse','HEAD']).strip(),'tested_commit':CFG['tested_commit'],'initial_commit':CFG['initial_commit'],'initial_status':call(['git','status','--porcelain']),'flags':BASE,'configuration':CFG,'benchmark_hashes':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in BENCH.iterdir() if p.is_file()}}
+ meta={'scale':'QUICK' if quick else 'FULL','timing_iterations':nt,'signatures':ns,'cpu':platform.processor(),'affinity':cpu,'gcc':call([CC,'--version']).splitlines()[0],'benchmark_commit':call(['git','rev-parse','HEAD']).strip(),'tested_commit':CFG['tested_commit'],'initial_commit':CFG['initial_commit'],'initial_status':call(['git','status','--porcelain']),'timing_warmup':20,'timing_key_population':'fresh key/signature per triple','timing_entropy':'SHAKE(seed,counter)' if ENV.get('BENCH_SEED') is not None else 'native OS','calibration_requested':os.environ.get('CALIBRATION')=='1','benchmark_seed':ENV.get('BENCH_SEED'),'flags':BASE,'configuration':CFG,'benchmark_hashes':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in BENCH.iterdir() if p.is_file()}}
  if Path('/proc/cpuinfo').exists():meta['cpu']=re.search(r'^model name\s*:\s*(.*)$',Path('/proc/cpuinfo').read_text(),re.M)[1]
  (out/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
  stage=out/'work'/'source';archive(CFG['tested_commit'],stage)
@@ -109,6 +110,7 @@ def main():
  lookup={(x['set'],x['build'],x['operation']):x['kcycles'] for x in results}
  s='# '+CFG['scheme']+' — '+meta['scale']+'\n\n'
  s+='QUICK is a workflow check only. Full-scale figures are measured locally.\n\n' if quick else 'Full-scale local benchmark.\n\n'
+ s+='Calibration status: '+CFG.get('calibration_status','not evaluated')+'\n\n'
  s+='CPU: '+meta['cpu']+'; affinity: '+str(cpu)+'. GCC: '+meta['gcc']+'.\n\nTested commit: `'+CFG['tested_commit']+'`. Benchmark commit: `'+meta['benchmark_commit']+'`.\n\n'
  s+='Base flags: `'+ ' '.join(BASE)+'`. Each operation: '+str(nt)+' iterations; correctness and lengths: '+str(ns)+' signatures per build/set. Message: 32 bytes. Median units: thousand RDTSC ticks.\n\n'
  s+='Exact per-build options (in addition to base flags and local include paths):\n\n'
@@ -137,9 +139,23 @@ def main():
  for row in CFG['sets']:
   name=row['name'];s+='| '+name+' | '+' | '.join('%.3f'%lookup[name,v,'ExpandedSign'] if (name,v,'ExpandedSign') in lookup else '--' for v in ('ref','avx2'))+' |\n'
  s+='\nCorrectness: all configured upstream KAT/self-tests passed; all generated signatures verified; changed messages rejected. Cross-build/equality details are in correctness.json.\n\n'
+ calibration_failed=False
+ if os.environ.get('CALIBRATION')=='1':
+  env=CFG['calibration_environment'];machine_ok=(env['cpu'] in meta['cpu'] and env['gcc'] in meta['gcc'] and cpu==0 and ENV.get('BENCH_SEED')==env['seed'])
+  deltas=[]
+  for rr in CFG['sets']:
+   for vv in ('ref','avx2'):
+    for op,target in zip(('KeyGen','Sign','Verify'),CFG['calibration'][rr['name']][vv]):
+     ratio=lookup[rr['name'],vv,op]/target;deltas.append(dict(set=rr['name'],build=vv,operation=op,ratio=ratio,within_3_percent=abs(ratio-1)<=0.03))
+  verdict='NOT_VALIDATED_QUICK' if quick else ('PASS' if machine_ok and all(x['within_3_percent'] for x in deltas) else 'FAIL')
+  calibration_failed=verdict=='FAIL'
+  (out/'calibration.json').write_text(json.dumps(dict(status=verdict,machine_matches=machine_ok,environment=env,measurements=deltas),indent=2)+'\n')
+  s+='Calibration gate: **'+verdict+'**. Machine matches reference: '+str(machine_ok)+'. Historical COPA messages are 59 bytes; this run follows the required 32-byte protocol.\n\n'
  s+=CFG.get('notes','')+'\n\nBuild flags and commands per variant are in config.json, metadata.json and build logs. All source is extracted locally from the tested commit; algorithm files are unchanged. See bench/NOTES.md.\n'
  (out/'SUMMARY.md').write_text(s)
- print('PASS:',out/'SUMMARY.md',flush=True)
+ if calibration_failed:
+  print('CALIBRATION FAILED; stop subsequent repositories. See '+str(out/'calibration.json'),flush=True);sys.exit(2)
+ print('PASS (QUICK is not a 3% calibration verdict):',out/'SUMMARY.md',flush=True)
 if __name__=='__main__':
  try:main()
  except Exception as e:print('FAILED:',e,file=sys.stderr,flush=True);sys.exit(1)

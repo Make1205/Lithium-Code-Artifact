@@ -1,0 +1,47 @@
+--- Lithium-81389d1/avx2/fips202x4.c
++++ COPA-3c676bd/avx2/fips202x4.c
+@@ -41,9 +41,12 @@
+     inlen -= 8 * i;
+ 
+     if (inlen) {
+-        t = _mm256_i64gather_epi64((long long *)pos, idx, 1);
+-        idx = _mm256_set1_epi64x((1ULL << (8 * inlen)) - 1);
+-        t = _mm256_and_si256(t, idx);
++        uint64_t tail[4] = {0, 0, 0, 0};
++        memcpy(&tail[0], in0 + pos, inlen);
++        memcpy(&tail[1], in1 + pos, inlen);
++        memcpy(&tail[2], in2 + pos, inlen);
++        memcpy(&tail[3], in3 + pos, inlen);
++        t = _mm256_loadu_si256((const __m256i *)tail);
+         s[i] = _mm256_xor_si256(s[i], t);
+     }
+ 
+@@ -67,15 +70,11 @@
+         f1600x4(s, KeccakF_RoundConstants);
+         for (i = 0; i < r / 8; ++i) {
+             t = _mm_castsi128_pd(_mm256_castsi256_si128(s[i]));
+-            _mm_storel_pd(
+-                (__attribute__((__may_alias__)) double *)&out0[8 * i], t);
+-            _mm_storeh_pd(
+-                (__attribute__((__may_alias__)) double *)&out1[8 * i], t);
++            _mm_storeu_si64(&out0[8 * i], _mm_castpd_si128(t));
++            _mm_storeu_si64(&out1[8 * i], _mm_srli_si128(_mm_castpd_si128(t), 8));
+             t = _mm_castsi128_pd(_mm256_extracti128_si256(s[i], 1));
+-            _mm_storel_pd(
+-                (__attribute__((__may_alias__)) double *)&out2[8 * i], t);
+-            _mm_storeh_pd(
+-                (__attribute__((__may_alias__)) double *)&out3[8 * i], t);
++            _mm_storeu_si64(&out2[8 * i], _mm_castpd_si128(t));
++            _mm_storeu_si64(&out3[8 * i], _mm_srli_si128(_mm_castpd_si128(t), 8));
+         }
+ 
+         out0 += r;
+@@ -175,3 +174,8 @@
+         }
+     }
+ }
++
++/* Copa's aligned opaque engine: vector lvalues carry may_alias, avoiding
++ * both aggregate type punning and a 3200-byte state copy per eight blocks. */
++void copa_keccak4_absorb(void *state,const uint8_t *a,const uint8_t *b,const uint8_t *c,const uint8_t *d,size_t n){keccakx4_absorb_once((__m256i *)state,SHAKE256_RATE,a,b,c,d,n,0x1f);}
++void copa_keccak4_block(void *state,uint8_t *a,uint8_t *b,uint8_t *c,uint8_t *d){keccakx4_squeezeblocks(a,b,c,d,1,SHAKE256_RATE,(__m256i *)state);}
